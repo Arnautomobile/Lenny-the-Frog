@@ -4,12 +4,6 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject menu;
     private GameObject player;
-    
-    //TODO Player script currently makes it so that menu buttons cannot be clicked
-    void Start()
-    {
-        
-    }
 
     //Checks for input. If the menu isn't open [esc] will open the menu, if the menu is open [esc] will close it and 
     // [m] will take you to the main menu scene
@@ -35,10 +29,12 @@ public class PauseMenu : MonoBehaviour
         if (menu.activeSelf)
         {
             Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
         }
         else
         {
             Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
