@@ -1,0 +1,51 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+public class PauseMenu : MonoBehaviour
+{
+    public GameObject menu;
+    private GameObject player;
+    
+    //TODO Player script currently makes it so that menu buttons cannot be clicked
+    void Start()
+    {
+        
+    }
+
+    //Checks for input. If the menu isn't open [esc] will open the menu, if the menu is open [esc] will close it and 
+    // [m] will take you to the main menu scene
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (menu.activeSelf)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+        }
+    }
+
+    //Pauses and unpauses the game
+    public void Pause()
+    {
+        menu.SetActive(!menu.activeSelf);
+        if (menu.activeSelf)
+        {
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+        }
+    }
+
+    //Loads main menu scene
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+}
