@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 144240782}
   m_Layer: 3
   m_Name: Spike (1)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7993,7 +7993,7 @@ GameObject:
   - component: {fileID: 599419651}
   m_Layer: 3
   m_Name: DeathFloor
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13184,7 +13184,7 @@ GameObject:
   - component: {fileID: 883488926}
   m_Layer: 3
   m_Name: Spike (3)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14393,7 +14393,7 @@ GameObject:
   - component: {fileID: 944209922}
   m_Layer: 3
   m_Name: Spike (4)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19848,7 +19848,7 @@ GameObject:
   - component: {fileID: 1336513669}
   m_Layer: 3
   m_Name: Spike
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20521,7 +20521,7 @@ GameObject:
   - component: {fileID: 1364406725}
   m_Layer: 3
   m_Name: DeathFloor2
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21863,6 +21863,8 @@ MonoBehaviour:
   _collisionLayer:
     serializedVersion: 2
     m_Bits: 8
+  _deathGroundTag: deathGround
+  _deathTimer: 3
 --- !u!65 &1520365514
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22949,7 +22951,7 @@ GameObject:
   - component: {fileID: 1539659200}
   m_Layer: 3
   m_Name: DeathFloor2 (1)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29038,7 +29040,7 @@ GameObject:
   - component: {fileID: 1888110865}
   m_Layer: 3
   m_Name: Spike (5)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32744,7 +32746,7 @@ GameObject:
   - component: {fileID: 2145329341}
   m_Layer: 3
   m_Name: Spike (2)
-  m_TagString: Untagged
+  m_TagString: DeathGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

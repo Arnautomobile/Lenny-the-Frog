@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _groundCheckTransform;
     [SerializeField] private Vector3 _groundCheckDimensions;
     [SerializeField] private LayerMask _collisionLayer;
+    [SerializeField] private string _deathGroundTag = "DeathGround"; // tag associated with object that will kill the playey
 
     private Rigidbody _rigidbody;
     private bool _chargingJump = false;
@@ -24,14 +26,25 @@ public class PlayerController : MonoBehaviour
     private bool _walking = false;
     private float _rotationDirection = 0;
 
+    private int _deathCount;
+    private bool _isDead;
+    private Vector3 _respawnPosition;
+    public float _deathTimer = 3f;
+
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _deathCount = 0;
+        _isDead = false;
+        _respawnPosition = new Vector3(0,3,0);
     }
 
     void Update()
     {
+        //do nothing if player is dead
+        if (_isDead) return;
+        
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         _head.transform.rotation = Quaternion.LookRotation(ray.direction);
 
@@ -67,6 +80,9 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        //do nothing if player is dead
+        if(_isDead) return;
+        
         if (!IsGrounded() || _chargingJump) return;
 
         if (_rotationDirection != 0) {
@@ -88,8 +104,58 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics.OverlapBox(_groundCheckTransform.position, _groundCheckDimensions * 0.5f,
-               Quaternion.identity, _collisionLayer).Length > 0;
+
+        Collider[] hitColliders = Physics.OverlapBox(_groundCheckTransform.position, _groundCheckDimensions * 0.5f,
+            Quaternion.identity, _collisionLayer);
+        
+        //iterate over the hitColliders and check if any of them are deathGround
+        //TODO: check if any of the hitColliders are the win ground and call Win()
+        foreach (Collider hit in hitColliders)
+        {
+            // Debug.Log("current collision tag: " + hit.gameObject.tag);
+            //make sure killPlayer is only called once to respawn
+            if (hit.CompareTag(_deathGroundTag) && !_isDead)
+            {
+                //does not count as a normal ground collision, kill the player and return false
+                _isDead = true;
+                Debug.Log("Calling KillPlayer");
+                KillPlayer();
+                return false;
+            }
+        }
+        
+        return hitColliders.Length > 0;
+    }
+
+    private void KillPlayer()
+    {
+        //respawn the player at the start of the level for now
+        // set isDead to true, increment deathCount by 1
+        // _isDead = true;
+        // Debug.Log("player should be dead: isDead = " + _isDead);
+        _deathCount++;
+        //start a coroutine to respawn the player
+        StartCoroutine(RespawnPlayer());
+        // Debug.Log("player should be respawned and not dead: isDead = " + _isDead);
+
+
+
+        //TODO: respawn at the previous checkpoint
+    }
+
+    public IEnumerator RespawnPlayer()
+    {
+        // Debug.Log("Starting respawn timer");
+        
+        //deactivate the player in the scene
+        //gameObject.SetActive(false);
+        _isDead = true;
+        yield return new WaitForSeconds(_deathTimer);
+        transform.position = _respawnPosition;
+        _isDead = false;
+
+        // Debug.Log("Player respawned");
+
     }
 
 
