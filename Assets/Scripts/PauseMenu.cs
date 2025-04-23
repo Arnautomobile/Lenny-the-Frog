@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public GameObject menu;
+    public GameObject optionsMenu;
     private GameObject player;
 
     //Checks for input. If the menu isn't open [esc] will open the menu, if the menu is open [esc] will close it and 
@@ -43,5 +44,10 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-
+    
+    public void Options()
+    {
+        optionsMenu.SetActive(!optionsMenu.activeSelf);
+        menu.SetActive(!menu.activeSelf);
+    }
 }
