@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _chargeTime;
     [SerializeField] private float _walkingSpeed;
     [SerializeField] private float _rotationSpeed;
+    [SerializeField] private float _chargeRotationSpeed;
 
     [Header("Collision Checking")]
     [SerializeField] private Transform _groundCheckTransform;
@@ -114,7 +115,7 @@ public class PlayerController : MonoBehaviour
             float angleDifference = Mathf.DeltaAngle(currentY, targetY);
 
             if (Mathf.Abs(angleDifference) > 0.1f) {
-                float rotationStep = Mathf.Sign(angleDifference) * _rotationSpeed;
+                float rotationStep = Mathf.Sign(angleDifference) * _chargeRotationSpeed;
                 float newY = currentY + rotationStep;
 
                 // Clamp to prevent overshooting

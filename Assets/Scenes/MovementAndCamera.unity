@@ -21757,16 +21757,16 @@ MonoBehaviour:
   _maxRotation: {x: 10, y: 10}
   _offsetsList:
   - state: 0
-    offset: {x: 0, y: 2, z: -5}
+    offset: {x: 0, y: 1.5, z: -5}
     followTime: 0.5
   - state: 1
-    offset: {x: 0, y: 1.5, z: -4}
+    offset: {x: 0, y: 1, z: -4}
     followTime: 0.5
   - state: 2
-    offset: {x: 0, y: 1, z: -6}
+    offset: {x: 0, y: 1, z: -7}
     followTime: 0.1
   - state: 3
-    offset: {x: 0, y: 1, z: -6}
+    offset: {x: 0, y: 2, z: -6}
     followTime: 0.2
 --- !u!43 &1500347326
 Mesh:
@@ -21974,6 +21974,7 @@ MonoBehaviour:
   _chargeTime: 3
   _walkingSpeed: 0.05
   _rotationSpeed: 1
+  _chargeRotationSpeed: 3
   _groundCheckTransform: {fileID: 845861304}
   _groundCheckDimensions: {x: 0.7, y: 0.1, z: 1.2}
   _collisionLayer:
