@@ -576,7 +576,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aae316a03a7d4752a2a0ff442cc5586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: 
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &965582316
 Transform:
   m_ObjectHideFlags: 0
