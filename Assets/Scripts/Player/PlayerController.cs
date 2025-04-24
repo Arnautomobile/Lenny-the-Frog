@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
     private int _walkingDirection = 0;
     private int _rotationDirection = 0;
 
+    
+    public bool IsDead { get; set; } = false;
+    public bool HasWon { get; set; } = false;
+
     private Quaternion _endJumpRotation;
     private Quaternion _startRotation;
     private Vector3 _endJumpPosition;
@@ -43,6 +47,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //do nothing if player is dead
+        if (IsDead || HasWon) return;
+
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         Quaternion endRotation = Quaternion.identity;
         Vector3 targetPosition;
@@ -107,7 +114,7 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsGrounded() || _isJumping) return;
+        if (!IsGrounded() || _isJumping || IsDead || HasWon) return;
 
         if (_chargingJump) {
             float currentY = transform.eulerAngles.y;

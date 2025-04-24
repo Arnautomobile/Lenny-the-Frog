@@ -61,7 +61,7 @@ public class GameLogic : MonoBehaviour
             if (hit.CompareTag(_deathGroundTag) && !_isDead)
             {
                 _isDead = true;
-                _playerController._isDead = _isDead;
+                _playerController.IsDead = _isDead;
                 _rigidbody.linearVelocity = Vector3.zero;
                 KillPlayer();
                 return true;
@@ -70,7 +70,7 @@ public class GameLogic : MonoBehaviour
             if (hit.CompareTag(_winGroundTag) && !_hasWon)
             {
                 _hasWon = true;
-                _playerController._hasWon = _hasWon;
+                _playerController.HasWon = _hasWon;
                 _rigidbody.linearVelocity = Vector3.zero;
                 WinLevel();
                 return true;
@@ -127,13 +127,13 @@ public class GameLogic : MonoBehaviour
     public IEnumerator WinCoroutine()
     {
         _hasWon = true;
-        _playerController._hasWon = _hasWon;
+        _playerController.HasWon = _hasWon;
         Debug.Log("You beat the level, respawning");
         yield return new WaitForSeconds(_winTimer);
         // currently this just respawns the player at the start of the level
         transform.position = _respawnPosition;
         _hasWon = false;
-        _playerController._hasWon = _hasWon;
+        _playerController.HasWon = _hasWon;
 
     }
     
@@ -147,13 +147,13 @@ public class GameLogic : MonoBehaviour
     public IEnumerator RespawnOnDeathCoroutine()
     {
         _isDead = true;
-        _playerController._isDead = _isDead;
+        _playerController.IsDead = _isDead;
 
         yield return new WaitForSeconds(_deathTimer);
         transform.position = _respawnPosition;
         
         _isDead = false;
-        _playerController._isDead = _isDead;
+        _playerController.IsDead = _isDead;
 
     }
     
