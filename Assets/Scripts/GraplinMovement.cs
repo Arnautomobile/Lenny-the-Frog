@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GraplinMovement : MonoBehaviour
 {
@@ -14,10 +15,24 @@ public class GraplinMovement : MonoBehaviour
     private float xRotation = 0f;
     private float yRotation = 0f;
     private bool isCursorLocked = true;
+    public bool isGrapping = false;
+    public Vector3 pointIntersection ;
+    public float graplinForce = 10f;
+    public float graplinDistance = 20f;
+    private LineRenderer lineRenderer;
+    public Image targetImage;
 
     private void Start()
     {
         LockCursor();
+        
+        lineRenderer = gameObject.AddComponent<LineRenderer>();
+        lineRenderer.positionCount = 2;
+        lineRenderer.startWidth = 0.05f;
+        lineRenderer.endWidth = 0.05f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default")); // Pour qu'il soit visible
+        lineRenderer.startColor = Color.red;
+        lineRenderer.endColor = Color.red;
     }
 
     private void Update()
@@ -31,26 +46,69 @@ public class GraplinMovement : MonoBehaviour
         {
             HandleCameraRotation();
         }
+        
+        
+        string debugmessage = "";
         Vector3 direction = GetDirection(); 
         Ray ray = new Ray(transform.position, direction);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
-        if (Physics.Raycast(ray, out hit))
-        {//get the tag of the object that the ray hits
-            if (hit.collider.gameObject.tag == "Graplin")
+
+        if (!isGrapping)
+        {
+            lineRenderer.SetPosition(0, Vector3.zero);
+            lineRenderer.SetPosition(1, Vector3.zero);
+            debugmessage += "not activ graplin";
+            if (Physics.Raycast(ray, out hit)&& hit.collider.gameObject.tag == "Graplin" && Vector3.Distance(transform.position, hit.point) < graplinDistance)
             {
-                //print GRAPLIN
-                
-                Rigidbody rb = this.GetComponent<Rigidbody>();
-                // si le clique gauche est appuyé
-                if (Input.GetMouseButtonDown(0))
+                targetImage.color = Color.blue;
+                debugmessage += " hitting";
+                if (Input.GetMouseButton(0) )
                 {
-                    //create a force to the ray 
-                    Debug.Log("GRAPLIN" + Time.deltaTime);
-                    rb.AddForce(hit.normal * -1000 * Time.deltaTime, ForceMode.Impulse);
+                    debugmessage += " GRABING";
+                    isGrapping = true;
+                    pointIntersection = hit.point;
+                }
+                else
+                {
                 }
             }
+            else
+            {
+                targetImage.color = Color.red;
+                    
+                
+            }
+            
+
         }
+        else
+        {
+            debugmessage += "activ graplin";
+            lineRenderer.SetPosition(0, transform.position + Vector3.forward);
+            lineRenderer.SetPosition(1, pointIntersection);
+            
+            if (Input.GetMouseButton(0))
+            {
+                debugmessage += " and GRABING";
+                Rigidbody rb = this.GetComponent<Rigidbody>();
+                Vector3 Direction = pointIntersection - transform.position;
+                Direction.Normalize();
+                rb.AddForce(Direction * Time.deltaTime* graplinForce, ForceMode.Impulse);
+                targetImage.color = Color.green;
+                
+                
+            }
+            else
+            {
+                debugmessage += " UNgrapping";
+
+                isGrapping = false;
+            }
+        }
+        
+        Debug.Log(debugmessage);
+        
         
         
     }
@@ -112,42 +170,5 @@ public class GraplinMovement : MonoBehaviour
     {
         return transform.position + transform.forward * directionRayLength;
     }
-    /*
-    public Camera _camera;
-    public float mouseSensitivity = 100f;
-    public float xRotation = 0f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {*/
-        
-        /* ----------- camera part ----------------- *//*
-        float mouseX = Input.GetAxis("Mouse X")  ;
-        float mouseY = Input.GetAxis("Mouse Y") ;
-        Ray ray1 = _camera.ScreenPointToRay(Input.mousePosition);
-        _camera.transform.rotation = Quaternion.LookRotation(ray1.direction);
-        //xRotation -= mouseY;
-        //xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        //_camera.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        //transform.Rotate(Vector3.up * mouseX);
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        // get the gameobject that the ray hits
-        RaycastHit hit;
-        
-        Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
-        if (Physics.Raycast(ray, out hit))
-        {//get the tag of the object that the ray hits
-            if (hit.collider.gameObject.tag == "Graplin")
-            {
-                //print GRAPLIN
-                Debug.Log("GRAPLIN" + Time.deltaTime);
-            }
-        }
-    }*/
+    
 }
