@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 284f4a0b712e544ada39bab2642ee42b
   - enabled: 1
-    path: Assets/Scenes/MovementAndCamera.unity
+    path: Assets/Scenes/Bryan.unity
     guid: 1a9b42601ccd16242a62cb1806420bf9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
