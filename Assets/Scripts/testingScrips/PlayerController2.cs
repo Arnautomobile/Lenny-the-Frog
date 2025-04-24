@@ -35,6 +35,11 @@ public class PlayerController2 : MonoBehaviour
     private Vector3 _endJumpPosition;
     private float _startJumpDistance;
     
+    public bool IsDead { get; set; } = false;
+    public bool HasWon { get; set; } = false;
+    
+    
+    
     [SerializeField] private Transform _spawnPoint;
     // visual 
     [SerializeField] private GameObject _visualBody;
@@ -52,6 +57,8 @@ public class PlayerController2 : MonoBehaviour
 
     void Update()
     {
+        if (IsDead || HasWon) return; // do nothing if player is dead
+
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
         Quaternion endRotation = Quaternion.identity;
         Vector3 targetPosition;
@@ -116,7 +123,7 @@ public class PlayerController2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsGrounded() || _isJumping) return;
+        if (!IsGrounded() || _isJumping || IsDead || HasWon) return;
 
         if (_chargingJump) {
             float currentY = transform.eulerAngles.y;

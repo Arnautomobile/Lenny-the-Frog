@@ -35,7 +35,7 @@ public class FireflyMovement : MonoBehaviour
                 break;
 
             case MovementType.LeftRight:
-                transform.position = startPosition + new Vector3(Mathf.Sin(timer) * length, 0, 0);
+                transform.position = startPosition + new Vector3(0, 0, Mathf.Sin(timer) * length);
                 break;
 
             case MovementType.UpDown:
@@ -66,7 +66,7 @@ public class FireflyMovement : MonoBehaviour
                 break;
 
             case MovementType.LeftRight:
-                Gizmos.DrawLine(center + Vector3.right * length, center + Vector3.left * length);
+                Gizmos.DrawLine(center + Vector3.forward * length, center + Vector3.back * length);
                 break;
 
             case MovementType.UpDown:
