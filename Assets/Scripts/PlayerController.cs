@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private bool _walking = false;
     private float _rotationDirection = 0;
 
+    public bool IsOnGraplinPhysics = false;
+
 
     void Start()
     {
@@ -97,4 +99,9 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.DrawWireCube(_groundCheckTransform.position, _groundCheckDimensions);
     }
+    
+    
+    
+    
+    
 }
