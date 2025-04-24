@@ -4,6 +4,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _head;
     [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _line;
     [SerializeField] private GameObject _debugHit;
 
     [Header("Movement Parameters")]
@@ -23,35 +24,31 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private CameraManager _cameraManager;
+    private TrajectoryLine _trajectoryLine;
     private bool _chargingJump = false;
     private bool _isJumping = false;
     private float _holdTimer = 0;
     private int _walkingDirection = 0;
     private int _rotationDirection = 0;
 
+    private (Vector3 position, Vector3 normal) _landing;
     
     public bool IsDead { get; set; } = false;
     public bool HasWon { get; set; } = false;
-
-    private Quaternion _endJumpRotation;
-    private Quaternion _startRotation;
-    private Vector3 _endJumpPosition;
-    private float _startJumpDistance;
 
 
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _cameraManager = _camera.GetComponent<CameraManager>();
+        _trajectoryLine = _line.GetComponent<TrajectoryLine>();
     }
 
     void Update()
     {
-        //do nothing if player is dead
-        if (IsDead || HasWon) return;
+        if (IsDead || HasWon) return; // do nothing if player is dead
 
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        Quaternion endRotation = Quaternion.identity;
         Vector3 targetPosition;
         RaycastHit hit;
 
@@ -64,7 +61,6 @@ public class PlayerController : MonoBehaviour
             }
             else {
                 targetPosition = hit.point;
-                endRotation = Quaternion.FromToRotation(Vector3.up, hit.normal);
             }
         }
         else {
@@ -72,8 +68,12 @@ public class PlayerController : MonoBehaviour
         }
 
         _debugHit.transform.position = targetPosition;
-        _debugHit.transform.rotation = endRotation;
         _head.transform.LookAt(targetPosition);
+
+        if (!_chargingJump) {
+            _trajectoryLine.Disable();
+        }
+        
 
         if (IsGrounded()) {
             if (!_isJumping) {
@@ -81,16 +81,15 @@ public class PlayerController : MonoBehaviour
                 _rigidbody.linearVelocity = Vector3.zero;
             }
             if (CheckInputs()) {
-                /*_endJumpRotation = endRotation;
-                _endJumpPosition = targetPosition;
-                _startRotation = transform.rotation;
-                _startJumpDistance = Vector3.Distance(transform.position, targetPosition);*/
                 Jump();
             }
 
             if (_chargingJump) {
                 _cameraManager.State = CameraState.ZOOM;
-                //transform.rotation = new Vector3(transform.rotation.x, Mathf.Lerp(transform.rotation.y))
+                _trajectoryLine.Enable();
+                float chargePower = _holdTimer >= _chargeTime ? 1 : _holdTimer / _chargeTime;
+                Vector3 force = _head.transform.forward * ((_maxjumpPower - _minJumpPower) * chargePower + _minJumpPower);
+                _landing = _trajectoryLine.Render(transform.position, force);
             }
             else {
                 _cameraManager.State = CameraState.BASEFOLLOW;
@@ -100,10 +99,6 @@ public class PlayerController : MonoBehaviour
             // change rotation
             if (_isJumping) {
                 _cameraManager.State = CameraState.JUMP;
-
-                /*float t = Vector3.Distance(transform.position, _endJumpPosition) / _startJumpDistance;
-                Debug.Log(Vector3.Distance(transform.position, _endJumpPosition) + "  |  " + _startJumpDistance);
-                transform.rotation = Quaternion.Slerp(_startRotation, _endJumpRotation, t);*/
             }
             else {
                 _cameraManager.State = CameraState.FALLING;
