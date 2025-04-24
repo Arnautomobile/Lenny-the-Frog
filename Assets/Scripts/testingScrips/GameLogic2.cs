@@ -17,18 +17,16 @@ public class GameLogic2 : MonoBehaviour
     private bool _hasWon;
     private Vector3 _respawnPosition;
     
+    
     // origanally PalyerController switched to PlayerController2 so mine would work
     private PlayerController2 _playerController;
     [SerializeField] private bool _showTimerInConsole = true;
 
     private float _levelTimer = 0f;
-    private bool _isLevelActive = false;
-    private const string BestTimeKey = "BestTime";
-
     void Start()
     {
         _levelTimer = 0f;
-        _isLevelActive = true;
+        
         // --------------
         _deathCount = 0;
         _isDead = false;
@@ -56,10 +54,9 @@ public class GameLogic2 : MonoBehaviour
     // below is mine to add to original 
     void Update()
     {
-        if (_isLevelActive)
+        if (!_isDead && !_hasWon)
         {
             _levelTimer += Time.deltaTime;
-            // showing timer on consol
             if (_showTimerInConsole)
             {
                 Debug.Log("Current Time: " + _levelTimer.ToString("F2") + "seconds");
@@ -112,8 +109,6 @@ public class GameLogic2 : MonoBehaviour
     private void WinLevel()
     {
         // ----
-        _isLevelActive = false;
-
         string bestTimeKey = GetBestTimeKeyForLevel();
         float bestTime = PlayerPrefs.GetFloat(bestTimeKey, float.MaxValue);
 
@@ -128,6 +123,7 @@ public class GameLogic2 : MonoBehaviour
             Debug.Log($"Finished Level {SceneManager.GetActiveScene().name} in {_levelTimer:F2} seconds \nPersonal Best: {bestTime:F2} seconds");
         }
         // --- 
+        
         StartCoroutine(WinCoroutine());
     }
     
@@ -171,7 +167,6 @@ public class GameLogic2 : MonoBehaviour
         Debug.Log("You beat the level, respawning");
         
         // hugos added code 
-        _isLevelActive = false;
         Debug.Log("Final Time: " + _levelTimer.ToString("F2"));
         
         yield return new WaitForSeconds(_winTimer);

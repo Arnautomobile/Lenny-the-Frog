@@ -30,7 +30,8 @@ public class FireflyMovement : MonoBehaviour
                 float x = Mathf.Cos(timer) * radius;
                 float y = Mathf.Sin(timer) * radius;
                 Quaternion rotation = Quaternion.Euler(rotationEuler);
-                Vector3 offset = rotation * new Vector3(x, y, 0); // Apply orbit tilt
+                // for tilting of rotation 
+                Vector3 offset = rotation * new Vector3(x, y, 0);
                 transform.position = startPosition + offset;
                 break;
 
@@ -59,6 +60,7 @@ public class FireflyMovement : MonoBehaviour
             center = transform.position;
         }
 
+        // choosing what gizmo drawing it will show 
         switch (movementType)
         {
             case MovementType.Circular:
@@ -75,6 +77,7 @@ public class FireflyMovement : MonoBehaviour
         }
     }
 
+    // needed for the drawing of the circle 
     private void DrawCircle(Vector3 center, float radius, Vector3 rotationEuler)
     {
         const int segments = 60;

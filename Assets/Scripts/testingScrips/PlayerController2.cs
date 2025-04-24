@@ -39,7 +39,7 @@ public class PlayerController2 : MonoBehaviour
     public bool HasWon { get; set; } = false;
     
     
-    
+    // for fade out screen on death but not fully working
     [SerializeField] private Transform _spawnPoint;
     // visual 
     [SerializeField] private GameObject _visualBody;

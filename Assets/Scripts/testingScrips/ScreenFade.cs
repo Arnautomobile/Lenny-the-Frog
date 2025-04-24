@@ -13,17 +13,20 @@ public class ScreenFader : MonoBehaviour
 
     public IEnumerator FadeOut(float duration)
     {
+        // fading out the screen
         yield return StartCoroutine(Fade(0f, 1f, duration));
     }
 
     public IEnumerator FadeIn(float duration)
     {
+        // fading it in screen 
         yield return StartCoroutine(Fade(1f, 0f, duration));
     }
 
     private IEnumerator Fade(float from, float to, float duration)
     {
         float elapsed = 0f;
+        // color is black
         Color color = _fadeImage.color;
 
         while (elapsed < duration)
@@ -34,7 +37,7 @@ public class ScreenFader : MonoBehaviour
             yield return null;
         }
 
-        // Ensure exact value at end
+        // ensuring exact value at end
         _fadeImage.color = new Color(color.r, color.g, color.b, to);
     }
 }

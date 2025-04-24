@@ -4,7 +4,7 @@ using UnityEngine;
 public class Firefly : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other) {
-        // to mkae sure movement stops 
+        // to mkae sure movement stops once touched 
         FireflyMovement movement = GetComponent<FireflyMovement>();
         if (movement != null)
         {
@@ -12,13 +12,15 @@ public class Firefly : MonoBehaviour
         }
         
         Transform visual = transform.Find("FireflyVisual");
-        
+        // still doing the fade out animation
         visual.gameObject.AddComponent<FireflyFadeOut>();
         
+        // checking if player hs touches it
         if (other.CompareTag("Player")) {
             PlayerController2 player = other.GetComponent<PlayerController2>();
             if (player != null) {
-                player.Respawn(); // Call method to reset player position
+                // calls the respawn method for the player setting them back to start of level
+                player.Respawn(); 
             }
         }
     }
