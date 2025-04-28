@@ -638,7 +638,7 @@ MonoBehaviour:
   _player: {fileID: 6593735280400421863}
   _cursor: {fileID: 5357326829059188140}
   _maxRotation: {x: 15, y: 10}
-  _minLookingDistance: 12
+  _minLookingDistance: 15
   _maxLookingDistance: 35
   _offsetsList:
   - state: 0
@@ -1071,10 +1071,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _head: {fileID: 2444725953345505648}
   _cursor: {fileID: 5357326829059188140}
-  _rotationTime: 0.2
+  _rotationTime: 0.5
   _graplinForce: 40
   _graplinDistance: 20
-  _startRotationDistance: 30
+  _startRotationDistance: 50
 --- !u!1 &6645142319880664263
 GameObject:
   m_ObjectHideFlags: 0

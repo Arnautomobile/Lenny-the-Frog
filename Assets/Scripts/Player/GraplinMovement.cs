@@ -132,7 +132,14 @@ public class GraplinMovement : MonoBehaviour
         if (_controller.IsJumping) {
             _controller.IsJumping = false;
         }
-        // make the frog land flat when hitting te ground
+        
+        if (!_controller.IsGrounded()) {
+            transform.rotation = Quaternion.LookRotation(
+                Vector3.ProjectOnPlane(transform.forward, collision.contacts[0].normal),
+                collision.contacts[0].normal
+            );
+        }
+        
         // bounce the frog by calling Jump again if material is bouncy
     }
 }
