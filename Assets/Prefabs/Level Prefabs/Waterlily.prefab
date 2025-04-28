@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7891992245419481564}
   - component: {fileID: 7739077371215714512}
   - component: {fileID: 7114857336756567039}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Waterlily
   m_TagString: Untagged
   m_Icon: {fileID: 0}
