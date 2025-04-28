@@ -4,13 +4,10 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _head;
-    [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _line;
-    [SerializeField] private GameObject _debugHit;
 
     [Header("Movement Parameters")]
-    [SerializeField] private float _minLookingDistance;
-    [SerializeField] private float _maxLookingDistance;
     [SerializeField] private float _minJumpPower;
     [SerializeField] private float _maxjumpPower;
     [SerializeField] private float _chargeTime;
@@ -52,31 +49,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (IsDead || HasWon) return; // do nothing if player is dead
+        if (IsDead || HasWon) return; // do nothing if player is dead        
 
-        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        Vector3 targetPosition;
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit)) {
-            _debugHit.transform.position = hit.point;
-            if (hit.distance < _minLookingDistance) {
-                targetPosition = ray.origin + ray.direction * _minLookingDistance;
-            }
-            else if (hit.distance > _maxLookingDistance) {
-                targetPosition = ray.origin + ray.direction * _maxLookingDistance;
-                _debugHit.transform.position = targetPosition;
-            }
-            else {
-                targetPosition = hit.point;
-            }
-        }
-        else {
-            targetPosition = ray.origin + ray.direction * _maxLookingDistance;
-            _debugHit.transform.position = targetPosition;
-        }
-
-        _head.transform.LookAt(targetPosition, transform.up);
+        _head.transform.LookAt(_cameraManager.TargetPosition, transform.up);
 
         if (!_chargingJump) {
             _trajectoryLine.Disable();

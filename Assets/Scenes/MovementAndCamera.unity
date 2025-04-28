@@ -1226,7 +1226,7 @@ GameObject:
   - component: {fileID: 185913440}
   m_Layer: 3
   m_Name: TreeBranch (3)
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2801,7 +2801,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7fa067ecc158c4852aa0f9e7d21ca032, type: 2}
+  - {fileID: 2100000, guid: 5c0c384cbd5e73848b93b9c4fe796f3e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3918,7 +3918,7 @@ GameObject:
   - component: {fileID: 450688846}
   m_Layer: 3
   m_Name: TreeBranch
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5289,7 +5289,7 @@ GameObject:
   - component: {fileID: 487446401}
   m_Layer: 3
   m_Name: TreeBranch (1)
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6637,7 +6637,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 11
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -8076,7 +8076,7 @@ GameObject:
   - component: {fileID: 596863043}
   - component: {fileID: 596863042}
   m_Layer: 0
-  m_Name: DebugPointer
+  m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8105,7 +8105,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f52d090cc19e76444a4ce064819ff060, type: 2}
+  - {fileID: 2100000, guid: 86f024917f14eec448e709b38101183c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15853,7 +15853,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7fa067ecc158c4852aa0f9e7d21ca032, type: 2}
+  - {fileID: 2100000, guid: 5c0c384cbd5e73848b93b9c4fe796f3e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22085,7 +22085,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 1520365512}
+  _cursor: {fileID: 596863041}
   _maxRotation: {x: 15, y: 10}
+  _minLookingDistance: 12
+  _maxLookingDistance: 35
   _offsetsList:
   - state: 0
     offset: {x: 0, y: 1.5, z: -6}
@@ -22276,6 +22279,7 @@ GameObject:
   - component: {fileID: 1520365515}
   - component: {fileID: 1520365517}
   - component: {fileID: 1520365513}
+  - component: {fileID: 1520365518}
   m_Layer: 0
   m_Name: Frog
   m_TagString: Untagged
@@ -22298,9 +22302,6 @@ MonoBehaviour:
   _head: {fileID: 39807108}
   _camera: {fileID: 1496682445}
   _line: {fileID: 607856391}
-  _debugHit: {fileID: 596863041}
-  _minLookingDistance: 10
-  _maxLookingDistance: 30
   _minJumpPower: 10
   _maxjumpPower: 30
   _chargeTime: 3
@@ -22382,6 +22383,25 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1520365518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520365512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b673c9cf05d4f4786768f135b95f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _head: {fileID: 39807108}
+  _cursor: {fileID: 596863041}
+  directionRayLength: 5
+  directionRayColor: {r: 1, g: 0, b: 0, a: 1}
+  isGrapping: 0
+  graplinForce: 10
+  graplinDistance: 20
 --- !u!43 &1525833833
 Mesh:
   m_ObjectHideFlags: 0
@@ -24436,7 +24456,7 @@ GameObject:
   - component: {fileID: 1599620153}
   m_Layer: 3
   m_Name: TreeBranch (2)
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28098,7 +28118,7 @@ GameObject:
   - component: {fileID: 1814694805}
   m_Layer: 3
   m_Name: Branch (2)
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28771,7 +28791,7 @@ GameObject:
   - component: {fileID: 1832390968}
   m_Layer: 3
   m_Name: Branch
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -32477,7 +32497,7 @@ GameObject:
   - component: {fileID: 1994808814}
   m_Layer: 3
   m_Name: Branch (1)
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

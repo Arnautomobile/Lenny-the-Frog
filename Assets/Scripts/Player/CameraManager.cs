@@ -5,7 +5,10 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _cursor;
     [SerializeField] private Vector2 _maxRotation;
+    [SerializeField] private float _minLookingDistance;
+    [SerializeField] private float _maxLookingDistance;
     [SerializeField] private List<CameraOffset> _offsetsList; // x offset will not be used
 
     private Camera _camera;
@@ -17,6 +20,7 @@ public class CameraManager : MonoBehaviour
     private float vel2;
 
     public CameraState State { get; set; }
+    public Vector3 TargetPosition { get; private set; }
 
 
     void Start()
@@ -32,6 +36,28 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit)) {
+            _cursor.transform.position = hit.point;
+            if (hit.distance < _minLookingDistance) {
+                TargetPosition = ray.origin + ray.direction * _minLookingDistance;
+            }
+            else if (hit.distance > _maxLookingDistance) {
+                TargetPosition = ray.origin + ray.direction * _maxLookingDistance;
+                _cursor.transform.position = TargetPosition;
+            }
+            else {
+                TargetPosition = hit.point;
+            }
+        }
+        else {
+            TargetPosition = ray.origin + ray.direction * _maxLookingDistance;
+            _cursor.transform.position = TargetPosition;
+        }
+
+
         if (State == CameraState.FREE) return;
 
         float followTime = _offsets[State].followTime;
