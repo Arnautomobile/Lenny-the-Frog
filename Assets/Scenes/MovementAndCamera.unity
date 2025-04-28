@@ -22300,16 +22300,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _head: {fileID: 39807108}
-  _camera: {fileID: 1496682445}
+  _camera: {fileID: 1496682444}
   _line: {fileID: 607856391}
-  _minJumpPower: 10
-  _maxjumpPower: 30
-  _chargeTime: 3
+  _minJumpPower: 5
+  _maxjumpPower: 25
+  _chargeTime: 1
   _forwardSpeed: 0.1
   _backwardSpeed: 0.05
-  _rotationSpeed: 1
+  _rotationSpeed: 2
   _chargeRotationSpeed: 3
-  _fallingRotationTime: 0
   _groundCheckTransform: {fileID: 845861304}
   _groundCheckDimensions: {x: 0.8, y: 0.1, z: 1.2}
   _collisionLayer:
@@ -22397,11 +22396,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _head: {fileID: 39807108}
   _cursor: {fileID: 596863041}
-  directionRayLength: 5
-  directionRayColor: {r: 1, g: 0, b: 0, a: 1}
-  isGrapping: 0
-  graplinForce: 10
-  graplinDistance: 20
+  _rotationTime: 0.2
+  _graplinForce: 40
+  _graplinDistance: 20
+  _startRotationDistance: 30
 --- !u!43 &1525833833
 Mesh:
   m_ObjectHideFlags: 0

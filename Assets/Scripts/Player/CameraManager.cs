@@ -37,22 +37,26 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit)) {
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
             _cursor.transform.position = hit.point;
-            if (hit.distance < _minLookingDistance) {
+            if (hit.distance < _minLookingDistance)
+            {
                 TargetPosition = ray.origin + ray.direction * _minLookingDistance;
             }
-            else if (hit.distance > _maxLookingDistance) {
+            else if (hit.distance > _maxLookingDistance)
+            {
                 TargetPosition = ray.origin + ray.direction * _maxLookingDistance;
                 _cursor.transform.position = TargetPosition;
             }
-            else {
+            else
+            {
                 TargetPosition = hit.point;
             }
         }
-        else {
+        else
+        {
             TargetPosition = ray.origin + ray.direction * _maxLookingDistance;
             _cursor.transform.position = TargetPosition;
         }
