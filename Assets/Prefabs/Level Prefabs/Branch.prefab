@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5175080639891111130}
   - component: {fileID: 6370090066412117032}
   - component: {fileID: 37317183979711521}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Branch
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
