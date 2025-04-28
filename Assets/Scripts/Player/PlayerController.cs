@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,9 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _minJumpPower;
     [SerializeField] private float _maxjumpPower;
     [SerializeField] private float _chargeTime;
-    [SerializeField] private float _walkingSpeed;
+    [SerializeField] private float _forwardSpeed;
+    [SerializeField] private float _backwardSpeed;
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _chargeRotationSpeed;
+    [SerializeField] private float _fallingRotationTime;
 
     [Header("Collision Checking")]
     [SerializeField] private Transform _groundCheckTransform;
@@ -27,11 +30,14 @@ public class PlayerController : MonoBehaviour
     private TrajectoryLine _trajectoryLine;
     private bool _chargingJump = false;
     private bool _isJumping = false;
+    private bool _isBouncing = false;
     private float _holdTimer = 0;
+    private float _jumpTimer = 0;
     private int _walkingDirection = 0;
     private int _rotationDirection = 0;
 
-    private (Vector3 position, Vector3 normal) _landing;
+    private (Vector3 normal, float time) _landingInfo;
+    private Quaternion _initialRotation = Quaternion.identity;
     
     public bool IsDead { get; set; } = false;
     public bool HasWon { get; set; } = false;
@@ -53,11 +59,13 @@ public class PlayerController : MonoBehaviour
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit)) {
+            _debugHit.transform.position = hit.point;
             if (hit.distance < _minLookingDistance) {
                 targetPosition = ray.origin + ray.direction * _minLookingDistance;
             }
             else if (hit.distance > _maxLookingDistance) {
                 targetPosition = ray.origin + ray.direction * _maxLookingDistance;
+                _debugHit.transform.position = targetPosition;
             }
             else {
                 targetPosition = hit.point;
@@ -65,10 +73,10 @@ public class PlayerController : MonoBehaviour
         }
         else {
             targetPosition = ray.origin + ray.direction * _maxLookingDistance;
+            _debugHit.transform.position = targetPosition;
         }
 
-        _debugHit.transform.position = targetPosition;
-        _head.transform.LookAt(targetPosition);
+        _head.transform.LookAt(targetPosition, transform.up);
 
         if (!_chargingJump) {
             _trajectoryLine.Disable();
@@ -77,8 +85,11 @@ public class PlayerController : MonoBehaviour
 
         if (IsGrounded()) {
             if (!_isJumping) {
-                // todo - remove that and let material friction control it
-                _rigidbody.linearVelocity = Vector3.zero;
+                if (_rigidbody.useGravity) {
+                    _rigidbody.useGravity = false;
+                    _rigidbody.linearVelocity = Vector3.zero;
+                }
+                _rigidbody.AddForce(-transform.up, ForceMode.Force); // keep the frog on the surface
             }
             if (CheckInputs()) {
                 Jump();
@@ -88,15 +99,20 @@ public class PlayerController : MonoBehaviour
                 _cameraManager.State = CameraState.ZOOM;
                 _trajectoryLine.Enable();
                 float chargePower = _holdTimer >= _chargeTime ? 1 : _holdTimer / _chargeTime;
-                Vector3 force = _head.transform.forward * ((_maxjumpPower - _minJumpPower) * chargePower + _minJumpPower);
-                _landing = _trajectoryLine.Render(transform.position, force);
+                Vector3 force = _head.transform.forward * Mathf.Lerp(_minJumpPower, _maxjumpPower, chargePower);
+                _landingInfo = _trajectoryLine.Render(transform.position, force);
             }
             else {
                 _cameraManager.State = CameraState.BASEFOLLOW;
             }
         }
         else {
-            // change rotation
+            if (!_rigidbody.useGravity) {
+                _rigidbody.useGravity = true;
+                _chargingJump = false;
+            }
+            _jumpTimer += Time.deltaTime;
+
             if (_isJumping) {
                 _cameraManager.State = CameraState.JUMP;
             }
@@ -109,22 +125,36 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!IsGrounded() || _isJumping || IsDead || HasWon) return;
+        if (IsDead || HasWon) return;
+
+        if (!IsGrounded()) {
+            float t;
+            Quaternion targetRotation;
+
+            if (_isJumping) {
+                t = Mathf.Clamp01(_jumpTimer / _landingInfo.time);
+                targetRotation = Quaternion.LookRotation(
+                    Vector3.ProjectOnPlane(transform.forward, _landingInfo.normal),
+                    _landingInfo.normal
+                );
+                Quaternion newRotation = Quaternion.Slerp(_initialRotation, targetRotation, t);
+                _rigidbody.MoveRotation(newRotation);
+            }
+            else if (_isBouncing) {
+                
+            }
+            return;
+        }
+
 
         if (_chargingJump) {
-            float currentY = transform.eulerAngles.y;
-            float targetY = _head.transform.eulerAngles.y;
-            float angleDifference = Mathf.DeltaAngle(currentY, targetY);
+            Vector3 upAxis = transform.up;
+            Vector3 headForward = Vector3.ProjectOnPlane(_head.transform.forward, upAxis).normalized;
 
-            if (Mathf.Abs(angleDifference) > 0.1f) {
-                float rotationStep = Mathf.Sign(angleDifference) * _chargeRotationSpeed;
-                float newY = currentY + rotationStep;
-
-                // Clamp to prevent overshooting
-                if (Mathf.Abs(Mathf.DeltaAngle(newY, targetY)) < Mathf.Abs(rotationStep)) {
-                    newY = targetY;
-                }
-                _rigidbody.MoveRotation(Quaternion.Euler(0f, newY, 0f));
+            if (transform.forward.sqrMagnitude > 0.001f && headForward.sqrMagnitude > 0.001f) {
+                Quaternion targetRotation = Quaternion.LookRotation(headForward, upAxis);
+                Quaternion newRotation = Quaternion.RotateTowards(_rigidbody.rotation, targetRotation, _chargeRotationSpeed);
+                _rigidbody.MoveRotation(newRotation);
             }
             return;
         }
@@ -132,8 +162,11 @@ public class PlayerController : MonoBehaviour
         if (_rotationDirection != 0) {
             _rigidbody.MoveRotation(_rigidbody.rotation * Quaternion.Euler(0, _rotationSpeed * _rotationDirection, 0));
         }
-        else if (_walkingDirection != 0) {
-            _rigidbody.MovePosition(_rigidbody.position + _walkingDirection * _walkingSpeed * transform.forward);
+        else if (_walkingDirection > 0) {
+            _rigidbody.MovePosition(_rigidbody.position + _forwardSpeed * transform.forward);
+        }
+        else if (_walkingDirection < 0) {
+            _rigidbody.MovePosition(_rigidbody.position - _backwardSpeed * transform.forward);
         }
     }
 
@@ -156,7 +189,6 @@ public class PlayerController : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.Space) && _chargingJump) {
             _chargingJump = false;
-            _isJumping = true;
             return true;
         }
 
@@ -168,14 +200,18 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
+        _jumpTimer = 0;
+        _isJumping = true;
+        _initialRotation = transform.rotation;
+
         float chargePower = _holdTimer >= _chargeTime ? 1 : _holdTimer / _chargeTime;
         Vector3 force = _head.transform.forward * ((_maxjumpPower - _minJumpPower) * chargePower + _minJumpPower);
         _rigidbody.AddForce(force, ForceMode.Impulse);
     }
 
-
     private bool IsGrounded()
     {
+        // check if the collider is walkable
         return Physics.OverlapBox(_groundCheckTransform.position, _groundCheckDimensions * 0.5f,
                                   transform.rotation, _collisionLayer).Length > 0;
     }
@@ -184,8 +220,15 @@ public class PlayerController : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (_isJumping) {
+            _jumpTimer = 0;
             _isJumping = false;
+            _initialRotation = transform.rotation;
         }
+        else {
+            _isBouncing = true;
+            // bounce the frog and predict the landing position
+        }
+
     }
 
     void OnDrawGizmos()
