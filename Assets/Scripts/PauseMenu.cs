@@ -10,16 +10,9 @@ public class PauseMenu : MonoBehaviour
     // [m] will take you to the main menu scene
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !optionsMenu.activeSelf)
         {
             Pause();
-        }
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            if (menu.activeSelf)
-            {
-                SceneManager.LoadScene("MainMenu");
-            }
         }
     }
 
