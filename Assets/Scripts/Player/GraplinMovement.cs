@@ -49,6 +49,7 @@ public class GraplinMovement : MonoBehaviour
                 _cursorRenderer.material.SetColor("_BaseColor", Color.blue);
                 
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
+                    //TODO: fire event for grappling sound
                     _addForce = true;
                     _isGrappling = true;
                     _controller.IsJumping = false;
