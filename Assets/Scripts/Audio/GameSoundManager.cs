@@ -24,6 +24,7 @@ public class GameSoundManager : MonoBehaviour
         PlayerController.OnJump += JumpSound;
         GraplinMovement.OnGrapple += GrappleSound;
         GraplinMovement.OnGrappleHit += GrappleHitSound;
+        frogCroaking.OnFrogCroaking += FrogCroakSound;
     }
 
     //below add all event methods that will play specific sounds
@@ -31,6 +32,11 @@ public class GameSoundManager : MonoBehaviour
     {
         Debug.Log("Sound Played");
         audioManager.Play("frog_collision");
+    }
+
+    private void FrogCroakSound()
+    {
+        audioManager.Play("frog_croak");
     }
     
     //frog eating/collecting item not yet implemented, no event yet

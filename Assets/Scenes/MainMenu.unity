@@ -597,7 +597,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: victory
     clip: {fileID: 8300000, guid: 48e9c6d4ac5964080b0472eff2771959, type: 3}
-    volume: 0.8
+    volume: 1
     pitch: 0
     loop: 0
     source: {fileID: 0}
@@ -632,14 +632,20 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: frog_respawn
-    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0
+    clip: {fileID: 8300000, guid: a79be2bd59f964327ac5d19175ab2283, type: 3}
+    volume: 0.85
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_grapple_hit
     clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
     volume: 0
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_croak
+    clip: {fileID: 8300000, guid: 4d2635d9fb6fd4705a119c835e61faaa, type: 3}
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}

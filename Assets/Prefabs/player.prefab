@@ -289,6 +289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7318546196903780350}
   - component: {fileID: 6941873526198581004}
+  - component: {fileID: 8609093166437013629}
   m_Layer: 0
   m_Name: FrogSoundManager
   m_TagString: Untagged
@@ -321,6 +322,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d15a6226bc0d546be805cd0a75c34fc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8609093166437013629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2356407714209121865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3d8525c96bf4e2b82c86bb981debc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2444725953345505648
