@@ -6,6 +6,9 @@ public class GraplinMovement : MonoBehaviour
 
     public delegate void GrappleSound();
     public static event GrappleSound OnGrapple;
+
+    public delegate void GrappleHit();
+    public static event GrappleHit OnGrappleHit;
     
     [SerializeField] private GameObject _head;
     [SerializeField] private GameObject _cursor;
@@ -53,7 +56,6 @@ public class GraplinMovement : MonoBehaviour
                 _cursorRenderer.material.SetColor("_BaseColor", Color.blue);
                 
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                    //TODO: fire event for grappling sound
                     OnGrapple?.Invoke();
                     _addForce = true;
                     _isGrappling = true;
@@ -132,6 +134,7 @@ public class GraplinMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        OnGrapple?.Invoke();
         if (!_addForce && _isGrappling) {
             _isGrappling = false;
         }

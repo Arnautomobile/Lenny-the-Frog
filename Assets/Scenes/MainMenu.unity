@@ -637,6 +637,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: frog_grapple_hit
+    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &965582316
 Transform:
   m_ObjectHideFlags: 0

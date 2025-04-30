@@ -23,6 +23,7 @@ public class GameSoundManager : MonoBehaviour
         GameLogic2.OnPlayerCollisionSound += NormalCollisionSound;
         PlayerController.OnJump += JumpSound;
         GraplinMovement.OnGrapple += GrappleSound;
+        GraplinMovement.OnGrappleHit += GrappleHitSound;
     }
 
     //below add all event methods that will play specific sounds
@@ -66,6 +67,12 @@ public class GameSoundManager : MonoBehaviour
     {
         Debug.Log("Sound Played");
         audioManager.Play("frog_grapple");
+    }
+
+    private void GrappleHitSound()
+    {
+        Debug.Log("Sound Played");
+        audioManager.Play("frog_grapple_hit");
     }
     
     private void VictorySound()
