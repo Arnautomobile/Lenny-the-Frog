@@ -4,38 +4,50 @@ using UnityEngine.SceneManagement;
 
 public class GameLogic2 : MonoBehaviour
 {
-    [SerializeField] private string _deathGroundTag = "DeathGround";
+    public delegate void PlayerCollision();
+    public static event PlayerCollision OnPlayerCollisionSound;
+    public delegate void PlayerDead();
+    public static event PlayerDead OnPlayerDead;
+
+    public delegate void PlayerWon();
+    public static event PlayerWon OnPlayerWon;
+
+    public delegate void WinLevelTimer();
+    public static event WinLevelTimer OnWinLevelTimer;
+
+    public delegate void RespawnPlayer();
+    public static event RespawnPlayer OnRespawnPlayer;
+
+    public delegate void HitWater();
+    public static event HitWater OnHitWater;
+    
+    [SerializeField] private string _waterGroundTag = "WaterGround";
     [SerializeField] private string _winGroundTag = "WinGround";
     [SerializeField] private float _deathTimer = 3f;
     [SerializeField] private float _winTimer = 5f;
     
-    private BoxCollider _boxCollider;
+    private CapsuleCollider _capsuleCollider;
     private Rigidbody _rigidbody;
-
-    private int _deathCount;
+    
     private bool _isDead;
     private bool _hasWon;
+    private bool _hitWater;
     private Vector3 _respawnPosition;
     
     
-    // origanally PalyerController switched to PlayerController2 so mine would work
-    private PlayerController2 _playerController;
-    [SerializeField] private bool _showTimerInConsole = true;
+    // originally PlayerController switched to PlayerController2 so mine would work
+    private PlayerController _playerController;
 
-    private float _levelTimer = 0f;
     void Start()
     {
-        _levelTimer = 0f;
-        
-        // --------------
-        _deathCount = 0;
+        _hitWater = false;
         _isDead = false;
         _hasWon = false;
         
         _respawnPosition = new Vector3(0,3,0);
         
-        _boxCollider = GetComponent<BoxCollider>();
-        _playerController = gameObject.GetComponent<PlayerController2>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
+        _playerController = gameObject.GetComponent<PlayerController>();
         _rigidbody = GetComponent<Rigidbody>();
         
     }
@@ -51,18 +63,6 @@ public class GameLogic2 : MonoBehaviour
             //nothing here for now
         }
     }
-    // below is mine to add to original 
-    void Update()
-    {
-        if (!_isDead && !_hasWon)
-        {
-            _levelTimer += Time.deltaTime;
-            if (_showTimerInConsole)
-            {
-                Debug.Log("Current Time: " + _levelTimer.ToString("F2") + "seconds");
-            }
-        }
-    }
 
     /**
      * This method checks if the player is touching a surface
@@ -72,30 +72,47 @@ public class GameLogic2 : MonoBehaviour
     private bool IsTouchingSurface()
     {
         //collect all colliders into a collider array
-        Collider[] hitColliders = Physics.OverlapBox(transform.position, _boxCollider.bounds.extents, Quaternion.identity);
+        Collider[] hitColliders = Physics.OverlapBox(transform.position, _capsuleCollider.bounds.extents, Quaternion.identity);
 
         //iterate over all the colliders
         foreach (Collider hit in hitColliders)
         {
             //this checks if the player is colliding with a ground that would kill them
-            if (hit.CompareTag(_deathGroundTag) && !_isDead)
+            if (hit.gameObject.layer == LayerMask.NameToLayer("DeathGround") && !_isDead)
             {
+                if (hit.CompareTag(_waterGroundTag) && !_hitWater)
+                {
+                    _hitWater = true;
+                    //invoke event for waterMovement script to listen to 
+                    //TODO: play water splash sound here
+                    OnHitWater?.Invoke();
+                    
+                }
+                if (!_hitWater)
+                {
+                    //player died not in the water
+                    //fire event to play a normal frog collision sound here
+                    OnPlayerCollisionSound?.Invoke();
+                }
+                Debug.Log("Player hit deathGround object");
                 _isDead = true;
                 _playerController.IsDead = _isDead;
-                _rigidbody.linearVelocity = Vector3.zero;
                 KillPlayer();
                 return true;
             } 
             // this checks if the player is colliding with a ground that would win the level
             if (hit.CompareTag(_winGroundTag) && !_hasWon)
             {
+                Debug.Log("Player hit winGround object");
                 _hasWon = true;
                 _playerController.HasWon = _hasWon;
-                _rigidbody.linearVelocity = Vector3.zero;
+                //TODO: play victory sound
                 WinLevel();
                 return true;
             }
+            
         }
+
         return false;
     }
     
@@ -108,21 +125,7 @@ public class GameLogic2 : MonoBehaviour
      */
     private void WinLevel()
     {
-        // ----
-        string bestTimeKey = GetBestTimeKeyForLevel();
-        float bestTime = PlayerPrefs.GetFloat(bestTimeKey, float.MaxValue);
-
-        if (_levelTimer < bestTime)
-        {
-            PlayerPrefs.SetFloat(bestTimeKey, _levelTimer);
-            PlayerPrefs.Save();
-            Debug.Log($"New Personal Best time in {SceneManager.GetActiveScene().name}: {_levelTimer:F2} seconds");
-        }
-        else
-        {
-            Debug.Log($"Finished Level {SceneManager.GetActiveScene().name} in {_levelTimer:F2} seconds \nPersonal Best: {bestTime:F2} seconds");
-        }
-        // --- 
+        OnWinLevelTimer?.Invoke();
         
         StartCoroutine(WinCoroutine());
     }
@@ -138,16 +141,6 @@ public class GameLogic2 : MonoBehaviour
      */
     private void KillPlayer()
     {
-        // increment deathCount by 1
-        _deathCount++;
-        if (_deathCount == 1)
-        {
-            Debug.Log("You have died 1 time");
-        }
-        else
-        {
-            Debug.Log("You have died " + _deathCount + " times");
-        }
         //start a coroutine to respawn the player
         StartCoroutine(RespawnOnDeathCoroutine());
     }
@@ -163,14 +156,12 @@ public class GameLogic2 : MonoBehaviour
     public IEnumerator WinCoroutine()
     {
         _hasWon = true;
+        OnPlayerWon?.Invoke();
         _playerController.HasWon = _hasWon;
         Debug.Log("You beat the level, respawning");
         
-        // hugos added code 
-        Debug.Log("Final Time: " + _levelTimer.ToString("F2"));
-        
         yield return new WaitForSeconds(_winTimer);
-        // currently this just respawns the player at the start of the level
+        // TODO: currently this just respawns the player at the start of the level, change to loading the next scene
         transform.position = _respawnPosition;
         _hasWon = false;
         _playerController.HasWon = _hasWon;
@@ -187,22 +178,17 @@ public class GameLogic2 : MonoBehaviour
     public IEnumerator RespawnOnDeathCoroutine()
     {
         _isDead = true;
+        OnPlayerDead?.Invoke();
         _playerController.IsDead = _isDead;
 
         yield return new WaitForSeconds(_deathTimer);
         transform.position = _respawnPosition;
+        OnRespawnPlayer?.Invoke();
         
         _isDead = false;
+        _hitWater = false;
         _playerController.IsDead = _isDead;
 
     }
     
-    private string GetBestTimeKeyForLevel()
-    {
-        // will get the scene name and for example 
-        // using Level1 it would return "BestTime_Level1
-        return "BestTime_" + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-    }
-    
 }
-

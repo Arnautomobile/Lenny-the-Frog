@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5175080639891111130}
   - component: {fileID: 6370090066412117032}
   - component: {fileID: 37317183979711521}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Branch
-  m_TagString: Untagged
+  m_TagString: Graplin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5686
+  m_VersionIndex: 5694
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -421,6 +421,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NF_Prop_Branch_01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c9e4495c9d00f4b4f96c4d5ecdcd170a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -497,6 +501,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 45ffe7f4122db5f478fddb5c1332205c, type: 3}
       propertyPath: m_Name
       value: NF_Prop_Branch_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 45ffe7f4122db5f478fddb5c1332205c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
