@@ -577,11 +577,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: 
-    clip: {fileID: 0}
-    volume: 0
+  - name: frog_eating
+    clip: {fileID: 8300000, guid: 6b733706480944077a7d852ecd92ed16, type: 3}
+    volume: 0.504
+    pitch: 0.1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_jump
+    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
+    volume: 1
     pitch: 0
     loop: 0
+    source: {fileID: 0}
+  - name: grapple1
+    clip: {fileID: 8300000, guid: 4f2a62a39520c4f7b9f6b0bb235a1836, type: 3}
+    volume: 1
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: grapple2
+    clip: {fileID: 8300000, guid: 97efaab1faa584590a87ea8d6fb43e3e, type: 3}
+    volume: 1
+    pitch: 0
+    loop: 0
+    source: {fileID: 0}
+  - name: forestSounds
+    clip: {fileID: 8300000, guid: 5f4816c6ceaae491da89dbd147a4a6e4, type: 3}
+    volume: 0.5
+    pitch: 0
+    loop: 1
+    source: {fileID: 0}
+  - name: backgroundMusic
+    clip: {fileID: 0}
+    volume: 0.3
+    pitch: 0
+    loop: 1
     source: {fileID: 0}
 --- !u!4 &965582316
 Transform:

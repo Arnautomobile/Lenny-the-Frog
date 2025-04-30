@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameLogic2 : MonoBehaviour
 {
+    public delegate void PlayerCollision();
+    public static event PlayerCollision OnPlayerCollisionSound;
     public delegate void PlayerDead();
     public static event PlayerDead OnPlayerDead;
 
@@ -15,8 +17,11 @@ public class GameLogic2 : MonoBehaviour
 
     public delegate void RespawnPlayer();
     public static event RespawnPlayer OnRespawnPlayer;
+
+    public delegate void HitWater();
+    public static event HitWater OnHitWater;
     
-    [SerializeField] private string _deathGroundTag = "DeathGround";
+    [SerializeField] private string _waterGroundTag = "WaterGround";
     [SerializeField] private string _winGroundTag = "WinGround";
     [SerializeField] private float _deathTimer = 3f;
     [SerializeField] private float _winTimer = 5f;
@@ -26,6 +31,7 @@ public class GameLogic2 : MonoBehaviour
     
     private bool _isDead;
     private bool _hasWon;
+    private bool _hitWater;
     private Vector3 _respawnPosition;
     
     
@@ -34,7 +40,7 @@ public class GameLogic2 : MonoBehaviour
 
     void Start()
     {
-
+        _hitWater = false;
         _isDead = false;
         _hasWon = false;
         
@@ -72,12 +78,25 @@ public class GameLogic2 : MonoBehaviour
         foreach (Collider hit in hitColliders)
         {
             //this checks if the player is colliding with a ground that would kill them
-            if (hit.CompareTag(_deathGroundTag) && !_isDead)
+            if (hit.gameObject.layer == LayerMask.NameToLayer("DeathGround") && !_isDead)
             {
+                if (hit.CompareTag(_waterGroundTag) && !_hitWater)
+                {
+                    _hitWater = true;
+                    //invoke event for waterMovement script to listen to 
+                    //TODO: play water splash sound here
+                    OnHitWater?.Invoke();
+                    
+                }
+                if (!_hitWater)
+                {
+                    //player died not in the water
+                    //fire event to play a normal frog collision sound here
+                    OnPlayerCollisionSound?.Invoke();
+                }
                 Debug.Log("Player hit deathGround object");
                 _isDead = true;
                 _playerController.IsDead = _isDead;
-                //_rigidbody.linearVelocity = Vector3.zero;
                 KillPlayer();
                 return true;
             } 
@@ -87,11 +106,13 @@ public class GameLogic2 : MonoBehaviour
                 Debug.Log("Player hit winGround object");
                 _hasWon = true;
                 _playerController.HasWon = _hasWon;
-                // _rigidbody.linearVelocity = Vector3.zero;
+                //TODO: play victory sound
                 WinLevel();
                 return true;
             }
+            
         }
+
         return false;
     }
     
@@ -165,6 +186,7 @@ public class GameLogic2 : MonoBehaviour
         OnRespawnPlayer?.Invoke();
         
         _isDead = false;
+        _hitWater = false;
         _playerController.IsDead = _isDead;
 
     }

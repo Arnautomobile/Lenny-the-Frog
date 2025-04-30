@@ -54,12 +54,9 @@ public class PlayerController : MonoBehaviour
         }
 
         if (IsGrounded()) {
-            if (!IsJumping) {
-                if (_rigidbody.useGravity) {
-                    _rigidbody.useGravity = false;
-                    _rigidbody.linearVelocity = Vector3.zero;
-                }
-                _rigidbody.AddForce(-transform.up, ForceMode.Force); // keep the frog on the surface
+            if (!IsJumping && _rigidbody.useGravity) {
+                _rigidbody.useGravity = false;
+                _rigidbody.linearVelocity = Vector3.zero;
             }
 
             if (CheckInputs()) {
