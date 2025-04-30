@@ -3,6 +3,10 @@ using UnityEngine.UI;
 
 public class GraplinMovement : MonoBehaviour
 {
+
+    public delegate void GrappleSound();
+    public static event GrappleSound OnGrapple;
+    
     [SerializeField] private GameObject _head;
     [SerializeField] private GameObject _cursor;
     [SerializeField] private float _rotationTime;
@@ -50,6 +54,7 @@ public class GraplinMovement : MonoBehaviour
                 
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
                     //TODO: fire event for grappling sound
+                    OnGrapple?.Invoke();
                     _addForce = true;
                     _isGrappling = true;
                     _controller.IsJumping = false;

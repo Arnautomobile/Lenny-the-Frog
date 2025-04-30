@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public delegate void JumpSound();
+    public static event JumpSound OnJump;
+    
+
+    
     [SerializeField] private GameObject _head;
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _line;
@@ -168,6 +173,8 @@ public class PlayerController : MonoBehaviour
         float chargePower = Mathf.Clamp01(_holdTimer / _chargeTime);
         Vector3 force = _head.transform.forward * Mathf.Lerp(_minJumpPower, _maxjumpPower, chargePower);
         _rigidbody.AddForce(force, ForceMode.Impulse);
+        OnJump?.Invoke();
+
     }
 
 

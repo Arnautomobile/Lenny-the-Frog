@@ -9,8 +9,9 @@ public class BackgroundAudio : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject); 
         audioManager = FindFirstObjectByType<AudioManager>();
+        Debug.Log("Background audio playing next");
         audioManager.Play("forestSounds");
-        audioManager.Play("backgroundSounds");
+        audioManager.Play("backgroundMusic");
         // put name of background sound clip in the quotes above
 
     }
