@@ -13,6 +13,9 @@ public class WaterMovement : MonoBehaviour
 
     private void OnHitWater()
     {
+        // could one line this
+        // grab initial velocity, multiply it by a slowFactor variable and then apply that slowed
+        // velocity vector to the player
         _initialVelocity = _rigidbody.linearVelocity;
         _slowedVelocity = _initialVelocity * _slowFactor;
         _rigidbody.linearVelocity = _slowedVelocity;

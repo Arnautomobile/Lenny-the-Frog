@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameLogic2 : MonoBehaviour
 {
+    public delegate void PlayerCollision();
+    public static event PlayerCollision OnPlayerCollisionSound;
     public delegate void PlayerDead();
     public static event PlayerDead OnPlayerDead;
 
@@ -82,13 +84,19 @@ public class GameLogic2 : MonoBehaviour
                 {
                     _hitWater = true;
                     //invoke event for waterMovement script to listen to 
+                    //TODO: play water splash sound here
                     OnHitWater?.Invoke();
                     
+                }
+                if (!_hitWater)
+                {
+                    //player died not in the water
+                    //fire event to play a normal frog collision sound here
+                    OnPlayerCollisionSound?.Invoke();
                 }
                 Debug.Log("Player hit deathGround object");
                 _isDead = true;
                 _playerController.IsDead = _isDead;
-                //_rigidbody.linearVelocity = Vector3.zero;
                 KillPlayer();
                 return true;
             } 
@@ -98,11 +106,13 @@ public class GameLogic2 : MonoBehaviour
                 Debug.Log("Player hit winGround object");
                 _hasWon = true;
                 _playerController.HasWon = _hasWon;
-                // _rigidbody.linearVelocity = Vector3.zero;
+                //TODO: play victory sound
                 WinLevel();
                 return true;
             }
+            
         }
+
         return false;
     }
     
