@@ -579,39 +579,75 @@ MonoBehaviour:
   sounds:
   - name: frog_eating
     clip: {fileID: 8300000, guid: 6b733706480944077a7d852ecd92ed16, type: 3}
-    volume: 0.504
-    pitch: 0.1
+    volume: 0.7
+    pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_jump
     clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 1
-    pitch: 0
+    volume: 0.7
+    pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: grapple1
+  - name: frog_grapple
     clip: {fileID: 8300000, guid: 4f2a62a39520c4f7b9f6b0bb235a1836, type: 3}
-    volume: 1
-    pitch: 0
+    volume: 0.7
+    pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: grapple2
-    clip: {fileID: 8300000, guid: 97efaab1faa584590a87ea8d6fb43e3e, type: 3}
+  - name: victory
+    clip: {fileID: 8300000, guid: 48e9c6d4ac5964080b0472eff2771959, type: 3}
     volume: 1
     pitch: 0
     loop: 0
     source: {fileID: 0}
   - name: forestSounds
     clip: {fileID: 8300000, guid: 5f4816c6ceaae491da89dbd147a4a6e4, type: 3}
-    volume: 0.5
-    pitch: 0
+    volume: 0.15
+    pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: backgroundMusic
-    clip: {fileID: 0}
-    volume: 0.3
-    pitch: 0
+    clip: {fileID: 8300000, guid: a15a5e6b41ea0432bacf015e363e0e56, type: 3}
+    volume: 0.4
+    pitch: 1
     loop: 1
+    source: {fileID: 0}
+  - name: frog_collision
+    clip: {fileID: 8300000, guid: 4ae3e24cc86474b6ca2740d16944485f, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_splash
+    clip: {fileID: 8300000, guid: 2141c0370a7fb4afaaa3f6f6385d13d3, type: 3}
+    volume: 0.75
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_death
+    clip: {fileID: 8300000, guid: e0ed99b7112a04eeba20b52255f4e3a2, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_respawn
+    clip: {fileID: 8300000, guid: a79be2bd59f964327ac5d19175ab2283, type: 3}
+    volume: 0.85
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_grapple_hit
+    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
+    volume: 0
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: frog_croak
+    clip: {fileID: 8300000, guid: 4d2635d9fb6fd4705a119c835e61faaa, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
     source: {fileID: 0}
 --- !u!4 &965582316
 Transform:
@@ -622,7 +658,7 @@ Transform:
   m_GameObject: {fileID: 965582313}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 953.2517, y: 497.95377, z: 4.4278417}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
