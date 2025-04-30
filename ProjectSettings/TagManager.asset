@@ -7,6 +7,7 @@ TagManager:
   - DeathGround
   - WinGround
   - Graplin
+  - WaterGround
   layers:
   - Default
   - TransparentFX
