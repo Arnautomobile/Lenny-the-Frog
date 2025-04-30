@@ -134,8 +134,9 @@ public class GraplinMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        OnGrapple?.Invoke();
         if (!_addForce && _isGrappling) {
+            OnGrapple?.Invoke();
+
             _isGrappling = false;
         }
         if (_controller.IsJumping) {

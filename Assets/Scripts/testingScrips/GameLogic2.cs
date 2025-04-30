@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class GameLogic2 : MonoBehaviour
 {
+    public delegate void PlayerTouchSpike();
+    public static event PlayerTouchSpike OnPlayerTouchSpike;
     public delegate void PlayerCollision();
     public static event PlayerCollision OnPlayerCollisionSound;
     public delegate void PlayerDead();
@@ -92,7 +94,9 @@ public class GameLogic2 : MonoBehaviour
                 {
                     //player died not in the water
                     //fire event to play a normal frog collision sound here
-                    OnPlayerCollisionSound?.Invoke();
+                    OnPlayerTouchSpike?.Invoke();
+                    // OnPlayerDead?.Invoke();
+                    // OnPlayerCollisionSound?.Invoke();
                 }
                 Debug.Log("Player hit deathGround object");
                 _isDead = true;
@@ -110,10 +114,17 @@ public class GameLogic2 : MonoBehaviour
                 WinLevel();
                 return true;
             }
-            
         }
 
         return false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer != LayerMask.NameToLayer("DeathGround") && !_hitWater)
+        {
+            OnPlayerCollisionSound?.Invoke();
+        }
     }
     
     /**

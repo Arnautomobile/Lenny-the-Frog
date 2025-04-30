@@ -17,7 +17,7 @@ public class GameSoundManager : MonoBehaviour
         GameLogic2.OnPlayerWon += VictorySound;
         
         //frog sounds
-        // GameLogic2.OnPlayerDead += DeathSound;
+        GameLogic2.OnPlayerTouchSpike += DeathSound;
         // .OnFrogEat += FrogEating;
         GameLogic2.OnHitWater += WaterSound;
         GameLogic2.OnPlayerCollisionSound += NormalCollisionSound;

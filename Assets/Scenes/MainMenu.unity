@@ -579,25 +579,25 @@ MonoBehaviour:
   sounds:
   - name: frog_eating
     clip: {fileID: 8300000, guid: 6b733706480944077a7d852ecd92ed16, type: 3}
-    volume: 0.504
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_jump
     clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_grapple
     clip: {fileID: 8300000, guid: 4f2a62a39520c4f7b9f6b0bb235a1836, type: 3}
-    volume: 1
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: victory
-    clip: {fileID: 8300000, guid: 6b733706480944077a7d852ecd92ed16, type: 3}
-    volume: 1
+    clip: {fileID: 8300000, guid: 48e9c6d4ac5964080b0472eff2771959, type: 3}
+    volume: 0.8
     pitch: 0
     loop: 0
     source: {fileID: 0}
@@ -614,32 +614,32 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: frog_collision
-    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0.4
+    clip: {fileID: 8300000, guid: 4ae3e24cc86474b6ca2740d16944485f, type: 3}
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_splash
-    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0.4
+    clip: {fileID: 8300000, guid: 2141c0370a7fb4afaaa3f6f6385d13d3, type: 3}
+    volume: 0.75
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_death
-    clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0.4
+    clip: {fileID: 8300000, guid: e0ed99b7112a04eeba20b52255f4e3a2, type: 3}
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_respawn
     clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0.4
+    volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: frog_grapple_hit
     clip: {fileID: 8300000, guid: 1137516c88b3c4681ab9a8a911ef344a, type: 3}
-    volume: 0.4
+    volume: 0
     pitch: 1
     loop: 0
     source: {fileID: 0}
