@@ -5,6 +5,9 @@ public class CoinCollection : MonoBehaviour
     private bool isCollected = false;
     private Animator animator;
 
+    public delegate void FrogEating();
+    public static event FrogEating OnFrogCollecting;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -15,7 +18,10 @@ public class CoinCollection : MonoBehaviour
 
         if (other.CompareTag("Player")) {
             isCollected = true;
-            CoinManager.Instance.CollectCoin();
+            CoinManager.Instance?.AddCoin();
+            
+            // should trigger the collecting sound 
+            OnFrogCollecting?.Invoke();
             animator.SetTrigger("Collect"); // Triggers collect animation
         }
     }

@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     private int _deathCount;
     private bool _isDead;
     private bool _hasWon;
+    private bool _collectedAllCoins;
 
 
     private void Start()
@@ -19,10 +20,13 @@ public class GameManager : MonoBehaviour
         GameLogic2.OnPlayerWon += OnPlayerWon;
         GameLogic2.OnWinLevelTimer += OnWinLevelTimer;
         GameLogic2.OnRespawnPlayer += OnRespawnPlayer;
+        CoinManager.OnAllCoinsCollected += OnAllCoinsCollected;
+        
         _levelTimer = 0f;
         _deathCount = 0;
         _isDead = false;
         _hasWon = false;
+        _collectedAllCoins = false;
     }
 
     private void Update()
@@ -52,11 +56,19 @@ public class GameManager : MonoBehaviour
         Debug.Log("Final Time: " + _levelTimer.ToString("F2"));
     }
 
+    private void OnAllCoinsCollected()
+    {
+        _collectedAllCoins = true;
+        Debug.Log("All coins collected!");
+    }
+
     private void OnWinLevelTimer()
     {
         // Debug.Log("OnWinLevelTimer called from GameManager");
         var bestTimeKey = GetBestTimeKeyForLevel();
+        var bestTimeWithCoinsKey = GetBestTimeWithCoinsKeyForLevel();
         var bestTime = PlayerPrefs.GetFloat(bestTimeKey, float.MaxValue);
+        var bestTimeWithCoins = PlayerPrefs.GetFloat(bestTimeWithCoinsKey, float.MaxValue);
 
         if (_levelTimer < bestTime)
         {
@@ -69,6 +81,21 @@ public class GameManager : MonoBehaviour
             Debug.Log(
                 $"Finished Level {SceneManager.GetActiveScene().name} in {_levelTimer:F2} seconds \nPersonal Best: {bestTime:F2} seconds");
         }
+
+        if (_collectedAllCoins)
+        {
+            if (_levelTimer < bestTimeWithCoins)
+            {
+                PlayerPrefs.SetFloat(bestTimeWithCoinsKey, _levelTimer);
+                PlayerPrefs.Save();
+                Debug.Log($"New Personal Best time with all coins in {SceneManager.GetActiveScene().name}: {_levelTimer:F2} seconds");
+            }
+            else
+            {
+                Debug.Log(
+                    $"Finished Level {SceneManager.GetActiveScene().name} with all coins in {_levelTimer:F2} seconds \nPersonal Best with coins: {bestTimeWithCoins:F2} seconds");
+            }
+        }
     }
     
     // TODO: when player wins and goes to a new level, listen to an event that will reset the levelTimer
@@ -78,6 +105,7 @@ public class GameManager : MonoBehaviour
         // Debug.Log("OnRespawnPlayer called from GameManager");
         _hasWon = false;
         _isDead = false;
+        _collectedAllCoins = false;
     }
 
     private string GetBestTimeKeyForLevel()
@@ -85,5 +113,10 @@ public class GameManager : MonoBehaviour
         // will get the scene name and for example 
         // using Level1 it would return "BestTime_Level1
         return "BestTime_" + SceneManager.GetActiveScene().name;
+    }
+
+    private string GetBestTimeWithCoinsKeyForLevel()
+    {
+        return "BestTimeWithCoins_" + SceneManager.GetActiveScene().name;
     }
 }

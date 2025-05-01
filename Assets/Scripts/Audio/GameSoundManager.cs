@@ -18,13 +18,17 @@ public class GameSoundManager : MonoBehaviour
         
         //frog sounds
         GameLogic2.OnPlayerTouchSpike += DeathSound;
-        // .OnFrogEat += FrogEating;
         GameLogic2.OnHitWater += WaterSound;
         GameLogic2.OnPlayerCollisionSound += NormalCollisionSound;
         PlayerController.OnJump += JumpSound;
         GraplinMovement.OnGrapple += GrappleSound;
         GraplinMovement.OnGrappleHit += GrappleHitSound;
         frogCroaking.OnFrogCroaking += FrogCroakSound;
+        
+        //coin collected 
+        CoinCollection.OnFrogCollecting += FogCollectingSound;
+        //firefly collision
+        Firefly.OnFireflyTouched += FireflyTouchSound;
     }
 
     //below add all event methods that will play specific sounds
@@ -40,10 +44,10 @@ public class GameSoundManager : MonoBehaviour
     }
     
     //frog eating/collecting item not yet implemented, no event yet
-    private void FrogEating()
+    private void FogCollectingSound()
     {
-        Debug.Log("Sound Played");
-        audioManager.Play("frog_eating");
+        Debug.Log("coin collected sound played");
+        audioManager.Play("frog_collected");
     }
     private void WaterSound()
     {
@@ -87,6 +91,11 @@ public class GameSoundManager : MonoBehaviour
         audioManager.Play("victory");
     }
 
+    private void FireflyTouchSound() {
+        Debug.Log("Player collided with firefly sound Played");
+        audioManager.Play("frog_death");
+    }
+
 
 
     private void OnDestroy()
@@ -95,6 +104,7 @@ public class GameSoundManager : MonoBehaviour
         GameLogic2.OnHitWater -= WaterSound;
         GameLogic2.OnPlayerWon -= VictorySound;
         GameLogic2.OnPlayerDead -= DeathSound;
+        CoinCollection.OnFrogCollecting -= FogCollectingSound;
         
     }
 }

@@ -5,8 +5,11 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
-    private int _coinsCollected = 0;
-    public int totalCoins = 4;
+    private int coinsCollected = 0;
+    public int totalCoins = 3;
+
+    public delegate void AllCoinsCollected();
+    public static event AllCoinsCollected OnAllCoinsCollected;
 
     // once UI is ready
     // [SerializeField] private Text coinText;
@@ -25,17 +28,17 @@ public class CoinManager : MonoBehaviour
         //UpdateCoinUI();
     }
 
-    public void CollectCoin()
+    public void AddCoin()
     {
-        _coinsCollected++;
+        coinsCollected++;
         //UpdateCoinUI();
 
-        Debug.Log($"Coins collected: {_coinsCollected}/{totalCoins}");
+        Debug.Log($"Coins collected: {coinsCollected}/{totalCoins}");
 
-        if (_coinsCollected >= totalCoins)
+        if (coinsCollected >= totalCoins)
         {
             Debug.Log("All coins collected! Nice job!");
-            // You could store this for rewards later
+            OnAllCoinsCollected?.Invoke();
         }
     }
 
@@ -48,8 +51,4 @@ public class CoinManager : MonoBehaviour
     //     }
     // }
     
-    public int GetCoinCount()
-    {
-        return _coinsCollected;
-    }
 }
