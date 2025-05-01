@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CoinCollection : MonoBehaviour
 {
+
+    // coid id is the same as the index of the coin in the CoinManager
+    [SerializeField] private int coinId = 0;
     private bool isCollected = false;
     private Animator animator;
 
@@ -18,11 +21,12 @@ public class CoinCollection : MonoBehaviour
 
         if (other.CompareTag("Player")) {
             isCollected = true;
-            CoinManager.Instance?.AddCoin();
+            CoinManager.Instance?.AddCoin(coinId);
             
             // should trigger the collecting sound 
             OnFrogCollecting?.Invoke();
-            animator.SetTrigger("Collect"); // Triggers collect animation
+            // triggering the animation
+            animator.SetTrigger("Collect");
         }
     }
     

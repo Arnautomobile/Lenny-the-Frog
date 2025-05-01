@@ -67,21 +67,25 @@ public class GameManager : MonoBehaviour
         // Debug.Log("OnWinLevelTimer called from GameManager");
         var bestTimeKey = GetBestTimeKeyForLevel();
         var bestTimeWithCoinsKey = GetBestTimeWithCoinsKeyForLevel();
+        
         var bestTime = PlayerPrefs.GetFloat(bestTimeKey, float.MaxValue);
         var bestTimeWithCoins = PlayerPrefs.GetFloat(bestTimeWithCoinsKey, float.MaxValue);
 
+        // if level beat and is better than bestTime
         if (_levelTimer < bestTime)
         {
             PlayerPrefs.SetFloat(bestTimeKey, _levelTimer);
             PlayerPrefs.Save();
             Debug.Log($"New Personal Best time in {SceneManager.GetActiveScene().name}: {_levelTimer:F2} seconds");
         }
+        // if not better than best just show the time it took to beat the level
         else
         {
             Debug.Log(
                 $"Finished Level {SceneManager.GetActiveScene().name} in {_levelTimer:F2} seconds \nPersonal Best: {bestTime:F2} seconds");
         }
 
+        // show time if all coins were collected, like above 
         if (_collectedAllCoins)
         {
             if (_levelTimer < bestTimeWithCoins)
