@@ -8,9 +8,14 @@ public class PauseMenu : MonoBehaviour
 
     //Checks for input. If the menu isn't open [esc] will open the menu, if the menu is open [esc] will close it and 
     // [m] will take you to the main menu scene
+    void Start()
+    {
+        
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !optionsMenu.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Escape) && !optionsMenu.activeSelf && SceneManager.GetActiveScene().name != "MainMenu")
         {
             Pause();
         }
@@ -28,7 +33,7 @@ public class PauseMenu : MonoBehaviour
         else
         {
             Time.timeScale = 1f;
-            Cursor.lockState = CursorLockMode.Locked;
+            //Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -41,6 +46,9 @@ public class PauseMenu : MonoBehaviour
     public void Options()
     {
         optionsMenu.SetActive(!optionsMenu.activeSelf);
-        menu.SetActive(!menu.activeSelf);
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            menu.SetActive(!menu.activeSelf);
+        }
     }
 }

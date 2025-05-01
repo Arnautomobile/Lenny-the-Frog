@@ -80,10 +80,15 @@ public class GameManager : MonoBehaviour
         _isDead = false;
     }
 
-    private string GetBestTimeKeyForLevel()
+    public string GetBestTimeKeyForLevel()
     {
         // will get the scene name and for example 
         // using Level1 it would return "BestTime_Level1
         return "BestTime_" + SceneManager.GetActiveScene().name;
+    }
+
+    public float GetLevelTimer()
+    {
+        return _levelTimer;
     }
 }
