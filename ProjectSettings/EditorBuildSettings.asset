@@ -9,14 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 284f4a0b712e544ada39bab2642ee42b
   - enabled: 1
-    path: Assets/Scenes/TestingHugo1.unity
-    guid: 2b51d53886e654b46a50ef54b422ebca
-  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: d86b0807194189744a8af8870adffd7f
-  - enabled: 1
-    path: Assets/Scenes/TestScene.unity
-    guid: 1c6dffa9809c240ddb038950ec969b52
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
