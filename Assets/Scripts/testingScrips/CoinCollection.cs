@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class CoinCollection : MonoBehaviour
 {
     private bool isCollected = false;
     private Animator animator;
@@ -9,26 +9,19 @@ public class Coin : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-    private void OnTriggerEnter(Collider other)
-    {
+
+    private void OnTriggerEnter(Collider other) {
         if (isCollected) return;
 
-        if (other.CompareTag("Player"))
-        {
+        if (other.CompareTag("Player")) {
             isCollected = true;
             CoinManager.Instance.CollectCoin();
             animator.SetTrigger("Collect"); // Triggers collect animation
         }
     }
     
-    
-    
     public void OnCoinCollectedAnimationEnd()
     {
         Destroy(gameObject);
     }
-    // private void Update()
-    // {
-    //     transform.Rotate(Vector3.up, 90 * Time.deltaTime); // Optional: coin spin
-    // }
 }
