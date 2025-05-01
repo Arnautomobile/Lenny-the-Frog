@@ -5,7 +5,7 @@ using UnityEngine;
 //this script will then play the specific sound for that event when the delegate is invoked
 public class GameSoundManager : MonoBehaviour
 {  
-    private AudioManager audioManager;
+    public AudioManager audioManager;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
