@@ -3,6 +3,13 @@ using UnityEngine.UI;
 
 public class GraplinMovement : MonoBehaviour
 {
+
+    public delegate void GrappleSound();
+    public static event GrappleSound OnGrapple;
+
+    public delegate void GrappleHit();
+    public static event GrappleHit OnGrappleHit;
+    
     [SerializeField] private GameObject _head;
     [SerializeField] private GameObject _cursor;
     [SerializeField] private float _rotationTime;
@@ -49,7 +56,7 @@ public class GraplinMovement : MonoBehaviour
                 _cursorRenderer.material.SetColor("_BaseColor", Color.blue);
                 
                 if (Input.GetKeyDown(KeyCode.Mouse0)) {
-                    //TODO: fire event for grappling sound
+                    OnGrapple?.Invoke();
                     _addForce = true;
                     _isGrappling = true;
                     _controller.IsJumping = false;
@@ -128,6 +135,8 @@ public class GraplinMovement : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (!_addForce && _isGrappling) {
+            OnGrapple?.Invoke();
+
             _isGrappling = false;
         }
         if (_controller.IsJumping) {

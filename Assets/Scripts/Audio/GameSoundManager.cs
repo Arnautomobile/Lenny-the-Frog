@@ -17,12 +17,14 @@ public class GameSoundManager : MonoBehaviour
         GameLogic2.OnPlayerWon += VictorySound;
         
         //frog sounds
-        // GameLogic2.OnPlayerDead += DeathSound;
+        GameLogic2.OnPlayerTouchSpike += DeathSound;
         // .OnFrogEat += FrogEating;
         GameLogic2.OnHitWater += WaterSound;
         GameLogic2.OnPlayerCollisionSound += NormalCollisionSound;
-        PlayerController2.OnJump += JumpSound;
-        PlayerController2.OnGrapple += GrappleSound;
+        PlayerController.OnJump += JumpSound;
+        GraplinMovement.OnGrapple += GrappleSound;
+        GraplinMovement.OnGrappleHit += GrappleHitSound;
+        frogCroaking.OnFrogCroaking += FrogCroakSound;
     }
 
     //below add all event methods that will play specific sounds
@@ -30,6 +32,11 @@ public class GameSoundManager : MonoBehaviour
     {
         Debug.Log("Sound Played");
         audioManager.Play("frog_collision");
+    }
+
+    private void FrogCroakSound()
+    {
+        audioManager.Play("frog_croak");
     }
     
     //frog eating/collecting item not yet implemented, no event yet
@@ -62,11 +69,16 @@ public class GameSoundManager : MonoBehaviour
         audioManager.Play("frog_jump");
     }
 
-    //TODO: grapple event is never fired so find out where it should go
     private void GrappleSound()
     {
         Debug.Log("Sound Played");
         audioManager.Play("frog_grapple");
+    }
+
+    private void GrappleHitSound()
+    {
+        Debug.Log("Sound Played");
+        audioManager.Play("frog_grapple_hit");
     }
     
     private void VictorySound()
