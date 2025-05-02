@@ -37,11 +37,6 @@ public class PlayerController2 : MonoBehaviour
     private float _holdTimer = 0;
     private int _walkingDirection = 0;
     private int _rotationDirection = 0;
-
-    private Quaternion _endJumpRotation;
-    private Quaternion _startRotation;
-    private Vector3 _endJumpPosition;
-    private float _startJumpDistance;
     
     public bool IsDead { get; set; } = false;
     public bool HasWon { get; set; } = false;

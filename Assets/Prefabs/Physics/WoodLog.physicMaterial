@@ -6,10 +6,10 @@ PhysicsMaterial:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LilyPad
+  m_Name: WoodLog
   serializedVersion: 2
-  m_DynamicFriction: 0.1
-  m_StaticFriction: 0.2
+  m_DynamicFriction: 1
+  m_StaticFriction: 0.5
   m_Bounciness: 0
-  m_FrictionCombine: 1
-  m_BounceCombine: 3
+  m_FrictionCombine: 0
+  m_BounceCombine: 0

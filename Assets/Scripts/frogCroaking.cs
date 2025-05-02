@@ -2,11 +2,11 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class frogCroaking : MonoBehaviour
+public class FrogCroaking : MonoBehaviour
 {
-    public delegate void FrogCroaking();
+    public delegate void frogCroaking();
 
-    public static event FrogCroaking OnFrogCroaking;
+    public static event frogCroaking OnFrogCroaking;
 
 
     private bool _isWaiting;
