@@ -23,7 +23,7 @@ public class GameSoundManager : MonoBehaviour
         PlayerController.OnJump += JumpSound;
         GraplinMovement.OnGrapple += GrappleSound;
         GraplinMovement.OnGrappleHit += GrappleHitSound;
-        frogCroaking.OnFrogCroaking += FrogCroakSound;
+        FrogCroaking.OnFrogCroaking += FrogCroakSound;
         
         //coin collected 
         CoinCollection.OnFrogCollecting += FogCollectingSound;

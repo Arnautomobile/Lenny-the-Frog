@@ -102,6 +102,11 @@ public class GameManager : MonoBehaviour
         }
     }
     
+    public float GetLevelTimer()
+    {
+        return _levelTimer;
+    }
+    
     // TODO: when player wins and goes to a new level, listen to an event that will reset the levelTimer
     
     private void OnRespawnPlayer()
