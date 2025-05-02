@@ -12,35 +12,49 @@ public class PlayerInfo : MonoBehaviour
     public TextMeshProUGUI BestJumpCount;
     public TextMeshProUGUI BestTime;
     public TextMeshProUGUI Timer;
+    public GameManager gm;
 
     public int jumps;
-    
+    public float time;
     public GameObject PauseMenu;
     public GameObject OptionsMenu;
     
     string jumpCountStr;
     string bestTimeStr;
     
+    
     void Start()
     {
+        GameLogic2.OnPlayerWon += OnPlayerWon;
+        jumps = 0;
         jumpCountStr = SceneManager.GetActiveScene().name + "_BestJumpCount";
-        bestTimeStr = SceneManager.GetActiveScene().name + "_BestTime";
+        bestTimeStr = gm.GetBestTimeKeyForLevel();
         LevelName.text = SceneManager.GetActiveScene().name;
+        //PlayerPrefs.SetFloat(bestTimeStr, 0.0f);
         BestJumpCount.text = PlayerPrefs.GetInt(jumpCountStr, 0).ToString();
         BestTime.text = PlayerPrefs.GetFloat(bestTimeStr, 0).ToString("0.00");
     }
 
     public void SaveInfo()
     {
-        PlayerPrefs.SetInt(jumpCountStr, jumps);
-        PlayerPrefs.SetFloat(bestTimeStr, Time.time);
+        if (PlayerPrefs.GetFloat(bestTimeStr, 0) == 0.0f)
+        {
+            PlayerPrefs.SetFloat(bestTimeStr, time);
+            PlayerPrefs.SetInt(jumpCountStr, jumps);
+        }
+
+        if (time < PlayerPrefs.GetFloat(bestTimeStr, 0))
+        {
+            PlayerPrefs.SetInt(jumpCountStr, jumps);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        Timer.text = Time.time.ToString("0.00");
-        if (Input.GetMouseButtonUp(0))
+        Timer.text = gm.GetLevelTimer().ToString("0.00");
+        time = gm.GetLevelTimer();
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (!PauseMenu.activeSelf && !OptionsMenu.activeSelf)
             {
@@ -49,9 +63,12 @@ public class PlayerInfo : MonoBehaviour
             }
         }
     }
-
-    private void OnApplicationQuit()
+    
+    private void OnPlayerWon()
     {
         SaveInfo();
+        Timer.text = "0.00";
+        jumps = 0;
+        JumpCount.text = "Jumps: 0";
     }
 }

@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
         _collectedAllCoins = false;
     }
 
-    private string GetBestTimeKeyForLevel()
+    public string GetBestTimeKeyForLevel()
     {
         // will get the scene name and for example 
         // using Level1 it would return "BestTime_Level1
