@@ -8,5 +8,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadSceneAsync(1);
     }
+
+    public void Options()
+    {
+        Debug.Log("Options Button Clicked");
+    }
     
 }
