@@ -9,11 +9,13 @@ public class GameManager : MonoBehaviour
     private int _deathCount;
     private bool _isDead;
     private bool _hasWon;
+    private int currLevel;
 
 
     private void Start()
     {
         DontDestroyOnLoad(gameObject); 
+        currLevel = SceneManager.GetActiveScene().buildIndex;
         
         GameLogic2.OnPlayerDead += OnPlayerDeath;
         GameLogic2.OnPlayerWon += OnPlayerWon;
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
         // Debug.Log("OnPlayerWon called from GameManager");
         _hasWon = true;
         Debug.Log("Final Time: " + _levelTimer.ToString("F2"));
+        LoadNextLevel();
     }
 
     private void OnWinLevelTimer()
@@ -90,5 +93,24 @@ public class GameManager : MonoBehaviour
     public float GetLevelTimer()
     {
         return _levelTimer;
+    }
+
+    /**
+     * The purpose of this method is to allow the next scenes to load and then loop the game
+     * back to the main menu when the 2 levels are completed
+     */
+    private void LoadNextLevel()
+    {
+        if (currLevel < SceneManager.sceneCountInBuildSettings)
+        {
+            currLevel++;
+        }
+        else
+        {
+            currLevel = 0;
+        }
+        
+        SceneManager.LoadScene(currLevel);
+
     }
 }
