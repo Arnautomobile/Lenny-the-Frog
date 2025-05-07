@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
         GameLogic2.OnWinLevelTimer += OnWinLevelTimer;
         GameLogic2.OnRespawnPlayer += OnRespawnPlayer;
         CoinManager.OnAllCoinsCollected += OnAllCoinsCollected;
+        LevelManager.OnChangeLevel += OnChangeLevel;
         
         _levelTimer = 0f;
         _deathCount = 0;
@@ -127,5 +128,11 @@ public class GameManager : MonoBehaviour
     private string GetBestTimeWithCoinsKeyForLevel()
     {
         return "BestTimeWithCoins_" + SceneManager.GetActiveScene().name;
+    }
+
+    void OnChangeLevel()
+    {
+        _levelTimer = 0;
+        OnRespawnPlayer();
     }
 }
