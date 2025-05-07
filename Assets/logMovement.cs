@@ -1,90 +1,79 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class logMovement : MonoBehaviour
 {
-    [Header("Paramètres de flottaison")]
-    public GameObject depart;
-    public GameObject arrivee;
-    private Transform pointA; // Premier point de destination
-    private Transform pointB; // Deuxième point de destination
-    public float vitesseDeplacement = 1f; // Vitesse de déplacement entre les points
-    public float amplitudeFlottaison = 0.2f; // Hauteur de la flottaison
-    public float frequenceFlottaison = 1f; // Fréquence de la flottaison
-    public float vitesseRotation = 15f; // Vitesse de rotation aléatoire
     
-    [Header("Variations aléatoires")]
-    public float variationVitesse = 0.3f; // Variation aléatoire de vitesse
-    public float variationRotation = 5f; // Variation aléatoire de rotation
     
-    private Vector3 positionInitiale;
-    private float tempsEcoule;
-    private float vitesseActuelle;
-    private float rotationYActuelle;
-    private float delaiChangementDirection;
-    private bool versPointB = true;
-    private float randomOffset;
-
-    private void Start()
-    {
-        pointA = depart.transform;
-        pointB = arrivee.transform;
-        if (pointA == null || pointB == null)
-        {
-            Debug.LogError("Les points A et B doivent être assignés dans l'inspecteur!");
-            enabled = false;
-            return;
-        }
-
-        positionInitiale = transform.position;
-        randomOffset = Random.Range(0f, 100f);
-        vitesseActuelle = vitesseDeplacement * (1 + Random.Range(-variationVitesse, variationVitesse));
-        rotationYActuelle = Random.Range(0f, 360f);
-    }
+    public List<GameObject> controlPoints;
+    public GameObject log;
+    
+    public int resolution = 100;
+    public float timeForMovement = 10f;
+    public float rotationSpeed = 10f;
 
     private void Update()
     {
-        // Calculer la progression entre les points
-        tempsEcoule += Time.deltaTime;
-        float progression = Mathf.PingPong(tempsEcoule * vitesseActuelle, 1f);
-        
-        // Déplacement entre les points A et B
-        Vector3 positionCible = versPointB ? pointB.position : pointA.position;
-        Vector3 nouvellePosition = Vector3.Lerp(pointA.position, pointB.position, progression);
-        
-        // Ajout de l'effet de flottaison
-        float oscillation = Mathf.Sin((tempsEcoule + randomOffset) * frequenceFlottaison) * amplitudeFlottaison;
-        nouvellePosition.y += oscillation;
-        
-        // Appliquer la nouvelle position
-        transform.position = nouvellePosition;
-        
-        // Rotation aléatoire lente
-        rotationYActuelle += (vitesseRotation + Random.Range(-variationRotation, variationRotation)) * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(
-            Mathf.Sin(tempsEcoule * 0.5f) * 5f, // Léger balancement avant/arrière
-            rotationYActuelle,
-            Mathf.Cos(tempsEcoule * 0.7f) * 5f // Léger balancement gauche/droite
-        );
-        
-        // Changement occasionnel de vitesse et direction
-        if (tempsEcoule > delaiChangementDirection)
+        log.transform.LookAt(GetBezierPoint((Time.time / timeForMovement) % 1, controlPoints.ConvertAll(p => p.transform.position)));
+        log.transform.position = GetBezierPoint((Time.time  / timeForMovement)%1, controlPoints.ConvertAll(p => p.transform.position));
+    }
+
+    void OnDrawGizmos()
+    {
+        if (controlPoints.Count < 2) return;
+        List<Vector3> points = new List<Vector3>();
+        foreach (GameObject obj in controlPoints)
         {
-            vitesseActuelle = vitesseDeplacement * (1 + Random.Range(-variationVitesse, variationVitesse));
-            delaiChangementDirection = tempsEcoule + Random.Range(2f, 5f);
+            points.Add(obj.transform.position);
+        }
+
+        // Dessiner la courbe de Bézier
+        Gizmos.color = Color.red;
+        for (int i = 0; i < resolution; i++)
+        {
+            float t1 = i / (float)resolution;
+            float t2 = (i + 1) / (float)resolution;
+
+            Vector3 point1 = GetBezierPoint(t1, points);
+            Vector3 point2 = GetBezierPoint(t2, points);
+
+            Gizmos.DrawLine(point1, point2);
+        }
+        // dessiner une droite entre les points de 
+        
+        Gizmos.color = Color.blue;
+        
+        for (int i = 0; i < controlPoints.Count - 1; i++)
+        {
+            Gizmos.DrawLine(controlPoints[i].transform.position, controlPoints[i + 1].transform.position);
         }
     }
 
-    // Pour visualiser les points dans l'éditeur
-    private void OnDrawGizmos()
+    
+    Vector3 GetBezierPoint(float t, List<Vector3> points)
     {
-        if (pointA != null && pointB != null)
+        int n = points.Count - 1;
+        Vector3 point = Vector3.zero;
+        
+        for (int i = 0; i <= n; i++)
         {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawSphere(pointA.position, 0.2f);
-            Gizmos.DrawSphere(pointB.position, 0.2f);
-            Gizmos.DrawLine(pointA.position, pointB.position);
+            float coefficient = BinomialCoefficient(n, i) * Mathf.Pow(1 - t, n - i) * Mathf.Pow(t, i);
+            point += coefficient * points[i];
         }
+
+        return point;
+    }
+    
+    int BinomialCoefficient(int n, int k)
+    {
+        if (k == 0 || k == n)
+            return 1;
+        return BinomialCoefficient(n - 1, k - 1) + BinomialCoefficient(n - 1, k);
     }
 }
+    
+    
+
 
     
