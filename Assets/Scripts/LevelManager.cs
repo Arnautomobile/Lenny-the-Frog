@@ -48,6 +48,6 @@ public class LevelManager : MonoBehaviour
             currLevel = 1;
         }
         SceneManager.LoadSceneAsync(currLevel);
-        OnChangeLevel.Invoke();
+        OnChangeLevel?.Invoke();
     }
 }
