@@ -649,6 +649,12 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: frog_collected
+    clip: {fileID: 8300000, guid: 814f9041928d54ed08e3c8ec0bba67c9, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
 --- !u!4 &965582316
 Transform:
   m_ObjectHideFlags: 0
