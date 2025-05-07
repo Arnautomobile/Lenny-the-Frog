@@ -4,6 +4,9 @@ using UnityEngine.SceneManagement;
 
 public class GameLogic2 : MonoBehaviour
 {
+    public delegate void LoadLevel();
+    public static event LoadLevel OnLoadLevel;
+    
     public delegate void PlayerTouchSpike();
     public static event PlayerTouchSpike OnPlayerTouchSpike;
     public delegate void PlayerCollision();
@@ -23,10 +26,16 @@ public class GameLogic2 : MonoBehaviour
     public delegate void HitWater();
     public static event HitWater OnHitWater;
     
+    // event for screen fade
+    public delegate void ScreenFade(bool fadeOut, float duration);
+    public static event ScreenFade OnScreenFade;
+    
     [SerializeField] private string _waterGroundTag = "WaterGround";
     [SerializeField] private string _winGroundTag = "WinGround";
     [SerializeField] private float _deathTimer = 3f;
     [SerializeField] private float _winTimer = 5f;
+    // reference to the screenfader script
+    [SerializeField] private ScreenFader screenFader; 
     
     private CapsuleCollider _capsuleCollider;
     private Rigidbody _rigidbody;
@@ -79,6 +88,17 @@ public class GameLogic2 : MonoBehaviour
         //iterate over all the colliders
         foreach (Collider hit in hitColliders)
         {
+            Debug.Log(hit.gameObject.name);
+            // this checks if the player is colliding with a ground that would win the level
+            if (hit.CompareTag(_winGroundTag) && !_hasWon)
+            {
+                Debug.Log("Player hit winGround object");
+                _hasWon = true;
+                _playerController.HasWon = _hasWon;
+                //TODO: play victory sound
+                WinLevel();
+                return true;
+            }
             //this checks if the player is colliding with a ground that would kill them
             if (hit.gameObject.layer == LayerMask.NameToLayer("DeathGround") && !_isDead)
             {
@@ -106,16 +126,7 @@ public class GameLogic2 : MonoBehaviour
                 KillPlayer();
                 return true;
             } 
-            // this checks if the player is colliding with a ground that would win the level
-            if (hit.CompareTag(_winGroundTag) && !_hasWon)
-            {
-                Debug.Log("Player hit winGround object");
-                _hasWon = true;
-                _playerController.HasWon = _hasWon;
-                //TODO: play victory sound
-                WinLevel();
-                return true;
-            }
+
         }
 
         return false;
@@ -151,9 +162,13 @@ public class GameLogic2 : MonoBehaviour
      *
      * Any other death related logic will go here and any other things that need to be updated
      * when dying will be handled here
+
+     * changed it to public so the firefly can call it to "kill" the player
      */
-    private void KillPlayer()
+    public void KillPlayer()
     {
+        // debugging 
+        Debug.Log("KillPlayer() called");
         //start a coroutine to respawn the player
         StartCoroutine(RespawnOnDeathCoroutine());
     }
@@ -175,10 +190,13 @@ public class GameLogic2 : MonoBehaviour
         
         yield return new WaitForSeconds(_winTimer);
         // TODO: currently this just respawns the player at the start of the level, change to loading the next scene
-        transform.position = _respawnPosition;
+        transform.position = Vector3.zero;
         _hasWon = false;
         _playerController.HasWon = _hasWon;
-
+        
+        //TODO: instead of this, fire event that LevelManager is listening to that switches level to next level
+        // SceneManager.LoadScene(0);
+        OnLoadLevel?.Invoke();
     }
     
     /**
@@ -194,9 +212,17 @@ public class GameLogic2 : MonoBehaviour
         OnPlayerDead?.Invoke();
         _playerController.IsDead = _isDead;
 
+        // triggering fade out
+        OnScreenFade?.Invoke(true, 1.5f);
+        yield return new WaitForSeconds(0.5f);
+
         yield return new WaitForSeconds(_deathTimer);
         transform.position = _respawnPosition;
         OnRespawnPlayer?.Invoke();
+        
+        // Trigger fade in
+        OnScreenFade?.Invoke(false, .5f);
+        yield return new WaitForSeconds(0.5f);
         
         _isDead = false;
         _hitWater = false;
