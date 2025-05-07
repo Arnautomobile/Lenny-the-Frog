@@ -27,6 +27,11 @@ public class PlayerInfo : MonoBehaviour
     
     void Start()
     {
+        if (gm == null)
+        {
+            gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
+
         GameLogic2.OnPlayerWon += OnPlayerWon;
         jumps = 0;
         
