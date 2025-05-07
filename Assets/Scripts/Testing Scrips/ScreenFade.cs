@@ -1,7 +1,7 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+
 public class ScreenFader : MonoBehaviour
 {
     private Image _fadeImage;
@@ -9,6 +9,30 @@ public class ScreenFader : MonoBehaviour
     void Awake()
     {
         _fadeImage = GetComponent<Image>();
+    }
+
+    void OnEnable()
+    {
+        // subscribing to the screen fade event
+        GameLogic2.OnScreenFade += HandleScreenFade;
+    }
+
+    void OnDisable()
+    {
+        // unsubscribing from the screen fade event
+        GameLogic2.OnScreenFade -= HandleScreenFade;
+    }
+
+    private void HandleScreenFade(bool fadeOut, float duration)
+    {
+        if (fadeOut)
+        {
+            StartCoroutine(FadeOut(duration));
+        }
+        else
+        {
+            StartCoroutine(FadeIn(duration));
+        }
     }
 
     public IEnumerator FadeOut(float duration)

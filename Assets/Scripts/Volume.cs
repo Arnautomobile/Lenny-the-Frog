@@ -5,6 +5,7 @@ public class Volume : MonoBehaviour
 {
     public Slider volumeSlider;
     public GameSoundManager soundManager;
+    public AudioManager audioManager;
     void Start()
     {
         volumeSlider.value = PlayerPrefs.GetFloat("Volume");
@@ -14,6 +15,17 @@ public class Volume : MonoBehaviour
     {
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
         //Call audio function
-        soundManager.audioManager.SetVolume(volumeSlider.value);
+        if (soundManager != null)
+        {
+            soundManager.audioManager.SetVolume(volumeSlider.value);
+        }
+        else
+        {
+            if (audioManager == null)
+            {
+                audioManager = FindFirstObjectByType<AudioManager>();
+            }
+            audioManager.SetVolume(volumeSlider.value);
+        }
     }
 }

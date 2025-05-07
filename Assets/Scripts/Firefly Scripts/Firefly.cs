@@ -1,8 +1,9 @@
-using System;
 using UnityEngine;
 
 public class Firefly : MonoBehaviour
 {
+    public delegate void FireflyTouched();
+    public static event FireflyTouched OnFireflyTouched;
     private void OnTriggerEnter(Collider other) {
         // to mkae sure movement stops once touched 
         FireflyMovement movement = GetComponent<FireflyMovement>();
@@ -17,10 +18,12 @@ public class Firefly : MonoBehaviour
         
         // checking if player hs touches it
         if (other.CompareTag("Player")) {
-            PlayerController2 player = other.GetComponent<PlayerController2>();
-            if (player != null) {
-                // calls the respawn method for the player setting them back to start of level
-                player.Respawn(); 
+            GameLogic2 gameLogic = other.GetComponentInParent<GameLogic2>();
+            if (gameLogic != null) {
+                // playing sound of collision 
+                OnFireflyTouched?.Invoke();
+                // Set the player as dead and trigger the respawn coroutine
+                gameLogic.KillPlayer();
             }
         }
     }

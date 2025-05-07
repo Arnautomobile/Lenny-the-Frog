@@ -3,10 +3,15 @@ using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
+    [SerializeField] private UICoinUpdate coinUpdate;
+    
     public static CoinManager Instance;
 
-    private int _coinsCollected = 0;
-    public int totalCoins = 4;
+    private bool[] collectedCoins;
+    public int totalCoins = 3;
+
+    public delegate void AllCoinsCollected();
+    public static event AllCoinsCollected OnAllCoinsCollected;
 
     // once UI is ready
     // [SerializeField] private Text coinText;
@@ -21,21 +26,43 @@ public class CoinManager : MonoBehaviour
 
     private void Start()
     {
-        // once we get UI going 
-        //UpdateCoinUI();
+        collectedCoins = new bool[totalCoins];
+        for (int i = 0; i < totalCoins; i++)
+        {
+            collectedCoins[i] = false;
+        }
+        coinUpdate?.UpdateDisplay(collectedCoins);
     }
 
-    public void CollectCoin()
+    public void AddCoin(int coinId)
     {
-        _coinsCollected++;
-        //UpdateCoinUI();
-
-        Debug.Log($"Coins collected: {_coinsCollected}/{totalCoins}");
-
-        if (_coinsCollected >= totalCoins)
+        if (coinId >= 0 && coinId < totalCoins)
         {
-            Debug.Log("All coins collected! Nice job!");
-            // You could store this for rewards later
+            collectedCoins[coinId] = true;
+            coinUpdate?.UpdateDisplay(collectedCoins);
+
+            Debug.Log($"Coin {coinId + 1} collected!");
+
+            // Check if all coins are collected
+            bool allCollected = true;
+            foreach (bool collected in collectedCoins)
+            {
+                if (!collected)
+                {
+                    allCollected = false;
+                    break;
+                }
+            }
+
+            if (allCollected)
+            {
+                Debug.Log("All coins collected! Nice job!");
+                OnAllCoinsCollected?.Invoke();
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Invalid coin ID: {coinId}");
         }
     }
 
@@ -48,8 +75,4 @@ public class CoinManager : MonoBehaviour
     //     }
     // }
     
-    public int GetCoinCount()
-    {
-        return _coinsCollected;
-    }
 }
