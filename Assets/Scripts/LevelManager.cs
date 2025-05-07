@@ -35,6 +35,10 @@ public class LevelManager : MonoBehaviour
         {
             currLevel = 0;
         }
+        else if (currLevel == 2)
+        {
+            currLevel = 0;
+        }
         
         SceneManager.LoadSceneAsync(currLevel);
     }
