@@ -37,6 +37,12 @@ public class GameManager : MonoBehaviour
             _levelTimer += Time.deltaTime;
             if (_showTimerInConsole) Debug.Log("Current Time: " + _levelTimer.ToString("F2") + "seconds");
         }
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            Destroy(gameObject);
+        }
+        
     }
 
     private void OnPlayerDeath()
