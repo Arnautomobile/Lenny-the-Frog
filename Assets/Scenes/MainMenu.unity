@@ -263,6 +263,42 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3554130985566616373, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759881722606021818, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3759881722606021818, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875778359693471863, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1589590199}
+    - target: {fileID: 3875778359693471863, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Options
+      objectReference: {fileID: 0}
+    - target: {fileID: 3875778359693471863, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287708029316105796, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287708029316105796, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7287708029316105796, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7844884119233375957, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
       propertyPath: m_Name
       value: Options Menu
@@ -418,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61212a19d7545475babdb05afc986711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 0}
 --- !u!114 &260028922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -462,6 +499,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &731907139 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3554130985566616373, guid: f5e42df4eb79abe4c9e41abebebd9035, type: 3}
+  m_PrefabInstance: {fileID: 238992886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &988759152
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61212a19d7545475babdb05afc986711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  optionsMenu: {fileID: 731907139}
 --- !u!4 &1589590200
 Transform:
   m_ObjectHideFlags: 0
