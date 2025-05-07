@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
         currLevel = 0;
         GameLogic2.OnLoadLevel += LoadNextLevel;
         MainMenu.OnLoadLevel += LoadNextLevel;
+        LoadNextLevel();
     }
 
     // Update is called once per frame
@@ -33,11 +34,15 @@ public class LevelManager : MonoBehaviour
         }
         else if (currLevel == 1)
         {
-            currLevel = 0;
+            currLevel = 2;
         }
         else if (currLevel == 2)
         {
-            currLevel = 0;
+            currLevel = 3;
+        }
+        else if (currLevel == 3)
+        {
+            currLevel = 1;
         }
         
         SceneManager.LoadSceneAsync(currLevel);
