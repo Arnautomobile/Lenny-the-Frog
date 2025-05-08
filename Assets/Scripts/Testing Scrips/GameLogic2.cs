@@ -87,7 +87,7 @@ public class GameLogic2 : MonoBehaviour
         //iterate over all the colliders
         foreach (Collider hit in hitColliders)
         {
-            Debug.Log(hit.gameObject.name);
+            //Debug.Log(hit.gameObject.name);
             // this checks if the player is colliding with a ground that would win the level
             if (hit.CompareTag(_winGroundTag) && !_hasWon)
             {
