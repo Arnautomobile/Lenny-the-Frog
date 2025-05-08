@@ -17,7 +17,12 @@ public class CoinCollection : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        if (isCollected) return;
+        if (isCollected)
+        {
+            Debug.Log("Collected already");
+            return;
+        }
+            
 
         if (other.CompareTag("Player")) {
             isCollected = true;

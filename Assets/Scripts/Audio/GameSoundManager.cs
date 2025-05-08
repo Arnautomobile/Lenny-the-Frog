@@ -34,7 +34,7 @@ public class GameSoundManager : MonoBehaviour
     //below add all event methods that will play specific sounds
     private void NormalCollisionSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_collision");
     }
 
@@ -46,53 +46,53 @@ public class GameSoundManager : MonoBehaviour
     //frog eating/collecting item not yet implemented, no event yet
     private void FogCollectingSound()
     {
-        Debug.Log("coin collected sound played");
+        //Debug.Log("coin collected sound played");
         audioManager.Play("frog_collected");
     }
     private void WaterSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_splash");
     }
     
     private void DeathSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_death");
     }
 
     private void RespawnSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_respawn");
     }
 
     private void JumpSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_jump");
     }
 
     private void GrappleSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_grapple");
     }
 
     private void GrappleHitSound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("frog_grapple_hit");
     }
     
     private void VictorySound()
     {
-        Debug.Log("Sound Played");
+        //Debug.Log("Sound Played");
         audioManager.Play("victory");
     }
 
     private void FireflyTouchSound() {
-        Debug.Log("Player collided with firefly sound Played");
+        //Debug.Log("Player collided with firefly sound Played");
         audioManager.Play("frog_death");
     }
 
