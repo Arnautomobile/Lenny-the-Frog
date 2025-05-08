@@ -54,8 +54,7 @@ public class GameLogic2 : MonoBehaviour
         _hitWater = false;
         _isDead = false;
         _hasWon = false;
-        
-        _respawnPosition = new Vector3(0,3,0);
+        _respawnPosition = new Vector3(0,5,0);
         
         _capsuleCollider = GetComponent<CapsuleCollider>();
         _playerController = gameObject.GetComponent<PlayerController>();

@@ -21,14 +21,26 @@ public class PlayerInfo : MonoBehaviour
     
     string jumpCountStr;
     string bestTimeStr;
+    string currJumpCountStr;
+    string currTimeStr;
     
     
     void Start()
     {
+        if (gm == null)
+        {
+            gm = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
+
         GameLogic2.OnPlayerWon += OnPlayerWon;
         jumps = 0;
+        
         jumpCountStr = SceneManager.GetActiveScene().name + "_BestJumpCount";
         bestTimeStr = gm.GetBestTimeKeyForLevel();
+
+        currJumpCountStr = SceneManager.GetActiveScene().name + "_CurrentJumpCount";
+        currTimeStr = SceneManager.GetActiveScene().name + "_CurrentTime";
+        
         LevelName.text = SceneManager.GetActiveScene().name;
         //PlayerPrefs.SetFloat(bestTimeStr, 0.0f);
         BestJumpCount.text = PlayerPrefs.GetInt(jumpCountStr, 0).ToString();
@@ -37,9 +49,12 @@ public class PlayerInfo : MonoBehaviour
 
     public void SaveInfo()
     {
+        PlayerPrefs.SetInt(currJumpCountStr, jumps);
+        PlayerPrefs.SetFloat(currTimeStr, gm.GetLevelTimer());
+        
         if (PlayerPrefs.GetFloat(bestTimeStr, 0) == 0.0f)
         {
-            PlayerPrefs.SetFloat(bestTimeStr, time);
+            PlayerPrefs.SetFloat(bestTimeStr, gm.GetLevelTimer());
             PlayerPrefs.SetInt(jumpCountStr, jumps);
         }
 

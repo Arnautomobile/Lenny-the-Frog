@@ -10,6 +10,9 @@ public class LevelManager : MonoBehaviour
 
     private int currLevel;
     
+    public delegate void ChangeLevel();
+    public static event ChangeLevel OnChangeLevel;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,7 +47,7 @@ public class LevelManager : MonoBehaviour
         {
             currLevel = 1;
         }
-        
         SceneManager.LoadSceneAsync(currLevel);
+        OnChangeLevel?.Invoke();
     }
 }
