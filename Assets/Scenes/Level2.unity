@@ -19367,6 +19367,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 2136707658127095049, guid: 6f3518ab2c15a614b9d9fee886d8633d, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 7669510817160729756, guid: 6f3518ab2c15a614b9d9fee886d8633d, type: 3}
       propertyPath: screenFader
       value: 
@@ -39337,6 +39341,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 10.9
       objectReference: {fileID: 0}
+    - target: {fileID: 3786287658493012850, guid: 5e7673c97733247f08d32ae12661158f, type: 3}
+      propertyPath: coinId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6739184908518078091, guid: 5e7673c97733247f08d32ae12661158f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 159.14
@@ -39348,6 +39356,10 @@ PrefabInstance:
     - target: {fileID: 6739184908518078091, guid: 5e7673c97733247f08d32ae12661158f, type: 3}
       propertyPath: m_LocalPosition.z
       value: 18.78
+      objectReference: {fileID: 0}
+    - target: {fileID: 8787350416202992147, guid: 5e7673c97733247f08d32ae12661158f, type: 3}
+      propertyPath: coinId
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
