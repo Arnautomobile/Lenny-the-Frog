@@ -6,6 +6,7 @@ public class WaterMovement : MonoBehaviour
     private Vector3 _initialVelocity;
     private Vector3 _slowedVelocity;
     [SerializeField] private float _slowFactor = 0.5f;
+    [SerializeField] private GameObject waterSplashPrefab;
     void Start()
     {
         GameLogic2.OnHitWater += OnHitWater;
@@ -19,6 +20,10 @@ public class WaterMovement : MonoBehaviour
         _initialVelocity = _rigidbody.linearVelocity;
         _slowedVelocity = _initialVelocity * _slowFactor;
         _rigidbody.linearVelocity = _slowedVelocity;
+        
+        // Water splash particle effect
+        Vector3 splashPosition = _rigidbody.transform.position;
+        Instantiate(waterSplashPrefab, splashPosition, Quaternion.LookRotation(Vector3.up));
     }
 
     void OnDestroy()

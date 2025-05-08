@@ -238,6 +238,7 @@ MonoBehaviour:
   _winGroundTag: WinGround
   _deathTimer: 3
   _winTimer: 5
+  screenFader: {fileID: 0}
 --- !u!114 &5358281327184253281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 787729349153994332}
   _slowFactor: 0.2
+  waterSplashPrefab: {fileID: 4622170704151613632, guid: 7f46752f4f4682b4e8f71aee43e1bbf9, type: 3}
 --- !u!1 &1403039738760957147
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,7 +550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063745924304696261}
   m_Layer: 0
-  m_Name: Player
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
